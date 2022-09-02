@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+		<meta charset="EUC-KR">
+		<title>Insert title here</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
 	<h2>list.html</h2>
 	세션값 확인: <p th: text="${session['loginEmail']}"></p>
+	세션값 확인: <p th: text="${session.longinEmail}"></p>
 	
 	<table>
 	<tr>
@@ -28,10 +30,72 @@
 		  <td th:text= "${member.memberMobile}"></td>
 		  <td th:text= "${member.memberLicense}"></td>
 		  <td th:text= "${member.memberLike}"></td>
+		  <td>
+		       <a th;href="!{|/member/${member.id}|}">조회</a>
+		  </td>
+		  <td><button th:onclick="detail{[[${member.id}]])">조회(ajax)</button></td>
+		  <td>
+		  <a th:href="@{|/member/delete/${member.id}|}">삭제</a>
+		  </td>
+		  <!--삭제 요청을 ajax로. type을 post사 아닌 delete로 하고
+		  controller에서 @DeleteMapping을 사용함. (삭제하는 코드는 동일함)-->		 
+		  <td><button th:onclick="delete([[${member.id}]])">삭제(ajax)</button></td>
+		  <td><button th:onclick="detail([[${member.id}]])">조회(ajax)</button></td>
 	</tr>
 	
 	</table>
-	
-	
-</body>
-</html>
+	<div id="member-detail">
+		
+		<div>
+	</body>
+	<script th:inline="javascript">
+		const deleteById = (id) => {
+			$.ajax({
+				type:"delete",
+				url:"/member/"+id,
+				//dataType: "text",
+				success: function (result){ //status code =200
+						location.href ="/member/";
+				}, error: function() {
+				alert("ajax 실패");
+				}
+			});
+		}
+			const detail = (id) => {
+				$.ajax({
+					type: "post",
+					url:  "/member/ajax"+id,
+					dataType: "json",
+					success: function(result){
+					console.log("result");
+					let detailViiew = "<table>＼n"+ 
+					"<tr>＼n"+
+		 		"<th>id<th>＼n"+
+		 		"<th>email<th>＼n"+
+		 		"<th>password<th>＼n"+
+		 		"<th>name<th>＼n"+
+		 		"<th>birth<th>＼n"+
+		 		"<th>mobile<th>＼n"+
+		 		"<th>license<th>＼n"+
+		 		"<th>like<th>＼n"+
+		 	"</tr>＼n"+
+		 	"<tr>＼n"+
+		 		"<td>"+result.id+"></td>＼n"+
+		 		"<td>"+result.memberEmail+"></td>＼n"+
+		 		"<td>"+result.memberPassword+"></td>＼n"+
+		 		"<td>"+result.memberName+"></td>＼n"+
+		 		"<td>"+result.memberBirth+"></td>＼n"+
+		 		"<td>"+result.memberMobile+"></td>＼n"+
+		 		"<td>"+result.memberLicense+"></td>＼n"+
+		 		"<td>"+result.memberLike+"></td>＼n"+
+		 	"</tr>＼n"+
+		 "</table>"				 
+		 document.getElementById("member-detail"),innerHTML = detailView; 		
+					},
+					eror: function(){
+					alert("ajax 실패");
+					}
+					});
+		}
+	</script>
+    </html>

@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns.th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+		<meta charset="EUC-KR">
+		<title>Title</title>
 </head>
 <body>
-
+		<table>
+			<tr>
+		 		<th>id<th>
+		 		<th>email<th>
+		 		<th>password<th>
+		 		<th>name<th>
+		 		<th>birth<th>
+		 		<th>mobile<th>
+		 		<th>license<th>
+		 		<th>like<th>
+		 	</tr>
+		 	<tr>
+		 		<td th: text="${member.id}"></td>
+		 		<td th: text="${member.memberEmail}"></td>
+		 		<td th: text="${member.memberPassword}"></td>
+		 		<td th: text="${member.memberName}"></td>
+		 		<td th: text="${member.memberBirth}"></td>
+		 		<td th: text="${member.memberMobile}"></td>
+		 		<td th: text="${member.memberLicense}"></td>
+		 		<td th: text="${member.memberLike}"></td>
+		 	</tr>
+		 </table>				 		
 </body>
 </html>
