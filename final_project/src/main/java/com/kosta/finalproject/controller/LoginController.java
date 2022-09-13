@@ -55,6 +55,7 @@ public class LoginController {
 		
 		if (loginResult != null) {
 			//로그인정보를 세션에 담는다
+			System.out.println("-==================================login logininfo"+loginResult);
 			session.setAttribute("loginInfo", loginResult);
 		//	memberDTO = (MemberDTO) session.getAttribute("loginInfo");
 			

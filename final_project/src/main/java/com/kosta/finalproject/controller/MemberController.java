@@ -110,9 +110,20 @@ public class MemberController {
 
 		log.info("memberDTO : "+memberDTO.toString());
 		
+		
 		//1. 숙제 회원정보 수정하기.
 		//2. html에서 받은 DTO를 업데이트하시오
 		//수정하는 로직 작성부분
+		
+		//   비밀번호 변경 로직 설명
+       //
+       //기존비밀번호가 맞는지 dto.memberPassword에 값을 넣고 ajax로  체크 해야한다.
+       //
+       //세션이 있는 로그인 한 계정의 member_no값으로 DB에 저장된 회원정보를 가져온다. where member_no = 로그인한 member_no
+      //
+     //ajax로 보낸 dto.getMemberPassword 랑 db의 memberPassword랑 비교
+     //
+     //일치한다면 새로운 비밀번호입력한것을 다시 dto.memberPassword에 담아 서버로 보내고 변경처리를 한다.
 		
 		
 		return "redirect:/member/myPage";		//수정 후 마이페이지로 이동하기

@@ -1,7 +1,6 @@
 <!doctype html>
-<html>
-
-<head>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org" >
+	<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>글쓰는페이지</title>
@@ -17,7 +16,7 @@
 			<input type="hidden" th:field="*{boardNo}">
 			<div class="form-group">
 				<label for="userid">글쓴이</label>
-				<input type="text" class="form-control" id="userid" th:field="*{memberId}">
+				<input type="text" class="form-control" id="userid"  th:value="${board.memberId}" th:field="*{memberId}">
 			</div>
 			<div class="form-group">
 				<label for="title">제목</label>

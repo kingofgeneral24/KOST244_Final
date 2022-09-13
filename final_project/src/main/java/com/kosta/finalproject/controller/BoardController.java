@@ -2,6 +2,8 @@ package com.kosta.finalproject.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kosta.finalproject.dto.MemberDTO;
 import com.kosta.finalproject.model.Board;
 import com.kosta.finalproject.repository.BoardRepository;
 
@@ -37,12 +40,17 @@ public class BoardController {
 	
 	// 글 쓰기 및 글 수정
 	@GetMapping("/form")
-	public String form(Model model, @RequestParam(required = false) Long boardNo) {
+	public String form(Model model, HttpSession session, @RequestParam(required = false) Long boardNo) {
 		//boardNo가 null인지 판단하기 위헤 Integer 사용, int&Long은 null체크 못함
 		//@RequestParam : 필수인지 아닌지
 		if(boardNo==null) { //null일 경우 새 보드를 생성해서 타임리프에 넘겨줌
-			
-			model.addAttribute("board",new Board());
+			MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo");
+			//로그인 세션에서 값을꺼내 컨트롤러에서 사용하는방법
+			//로그인 세션객체를 회원 Dto로 맵핑함 (값을 꺼내기위해서)
+			Board board = new Board();
+			board.setMemberId(memberDTO.getMemberId()); //게시판 작성자 dto변수에 set하면됨.
+			//게시판인서트하면 작성자가 > 로그인한사람이 됨
+			model.addAttribute("board", board);
 			//model.add
 		}else {//id가 값이 있을 경우 보드레파지에서 조회해서 넘겨줌
 			Board board = BoardRepository.findByboardNo(boardNo);//.orElse(null);
