@@ -53,7 +53,7 @@ public class MemberController {
 	*/
 	@GetMapping("/joinForm")
 	public String joinForm() {
-		return "member/joinForm";
+		return "/member/joinForm";
 	}	
 	
 	/**
@@ -79,7 +79,7 @@ public class MemberController {
         	model.addAttribute("memberInfo", memberService.findByMemberNo(memberNo));
         }
 		
-		return "member/myPage";
+		return "/member/myPage";
 		
 	}	
 
@@ -100,7 +100,7 @@ public class MemberController {
         	//회원번호로 회원정보를 데이터베이스에서 조회 후 html에서 사용하기위하여 모델 객체에 담는다.
         	model.addAttribute("memberInfo", memberService.findByMemberNo(memberNo));
         }
-		return "member/myPageUpdateForm";
+		return "/member/myPageUpdateForm";
 		
 	}	
 
@@ -136,7 +136,7 @@ public class MemberController {
         	//회원번호로 회원정보를 데이터베이스에서 조회 후 html에서 사용하기위하여 모델 객체에 담는다.
         	model.addAttribute("memberInfo", memberService.findByMemberNo(memberNo));
         }
-		return "member/passwordUpdateForm";
+		return "/member/passwordUpdateForm";
 		
 	}	
 	
@@ -155,7 +155,7 @@ public class MemberController {
 
 		List<MemberDTO> memberDTOList =memberService.findAll();
 		model.addAttribute("memberList", memberDTOList);
-		return "member/list";
+		return "/member/list";
 		
 	}
 	
