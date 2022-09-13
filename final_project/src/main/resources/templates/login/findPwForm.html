@@ -1,0 +1,126 @@
+<!DOCTYPE html> 
+<!-- layout.html -->
+
+<!-- 
+layout:decorate="~{layout/layout}"  란?
+- 기본 레이아웃을 layout/layout.html 으로 선언
+- 버전마다 선언방법이 다름 아래 참조.
+- layout:decorate thymeleaf 3.* ver (이거 사용함)
+- layout:decorator thymeleaf 2.* ver
+ <th:block layout:fragment="content">
+- 각 파일 마다, 위 코드 다음부터 작성한 내용들이 default_layout.html 의 content 부분에 위치함
+-->
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+	</head>      
+ 	<!-- 해당 html페이지에서만 사용할 css, script  -->
+ 	<th:block layout:fragment="css"></th:block>  
+ 	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="content">
+		<!-- Contact section-->
+	    <section class="bg-light py-5">
+	        <div class="container px-5 my-5 px-5">
+	            <div class="text-center mb-5">
+	            <!--
+	                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i>
+	                </div>
+	            -->
+	                <h2 class="fw-bolder">비밀번호 찾기</h2>
+	            </div>
+	            <div class="row gx-5 justify-content-center">
+	                <div class="col-lg-6">
+	                    <form id="contactForm">
+	                        <!-- 아이디 input-->
+	                        <div class="form-floating mb-3">
+	                            <input class="form-control" id="memberId" name="memberId" type="text" placeholder="아이를 입력해주세요..."/>
+	                            <label for="memberId">아이디</label>
+	                            <div class="invalid-feedback" id="memberIdErrMsg"style="display:none;">아이들 입력해주세요.</div>
+	                        </div>
+	                        <!-- 이름 input-->
+	                        <div class="form-floating mb-3">
+	                            <input class="form-control" id="memberName" name="memberName" type="text" placeholder="이름을 입력해주세요..."/>
+	                            <label for="memberName">이름</label>
+	                            <div class="invalid-feedback" id="memberNameErrMsg"style="display:none;">이름을 입력해주세요.</div>
+	                        </div>
+	                        <div class="form-floating mb-3" id="findPwResultDiv" style="display:none;">
+	                            <span class="form-control" id="findPwResult"></span>
+	                            <label for="findPwResult">임시비밀번호 찾기 결과 입니다.</label>
+	                        </div>
+                            <div  id="findPwResultErrMsg"style="display:none; color:#dc3545; font-size: 0.875em;">회원정보가 없습니다.</div>
+			                <br/>
+	                        <div class="d-grid"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="button">찾기</button></div>
+							</br>
+							<p class=h7>아이디를 잊어버리셨나요?&nbsp;&nbsp;<a  th:href="@{/login/findIdForm}">아이디 찾기</a></p>
+							<p class=h7>아직 회원이 아니신가요?&nbsp;&nbsp;<a  th:href="@{/member/joinForm}">회원가입</a></p>
+							<p class=h7><a  th:href="@{/login/loginForm}">로그인</a>&nbsp; 페이지 바로가기</p>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </section> 
+
+ 		<script>
+ 		
+	        $("#memberId, #memberName").off().on("focus", function () {
+
+	            let _id = $(this).attr('id')
+	            $("#" + _id + "ErrMsg").hide();
+
+	        }).on("blur", function () {
+
+	            let _id = $(this).attr('id')
+	            let _value = $(this).val();     
+	            if ($.trim(_value) == "") {
+	                $("#"+ _id+"ErrMsg").show();
+	            }
+	            
+	            chkSubmitBtn();
+
+	        });
+	        
+	        function chkSubmitBtn(){
+
+	            let flag = true;
+	            $("input").each(function (index, item) {
+	                if($.trim($(this).val()) == ""){
+	                    flag = false;
+	                }
+	            });
+            	
+            	if($(".invalid-feedback:visible").length == 0 && flag){
+	                $("#submitButton").removeClass("disabled");
+	            }else{
+	                $("#submitButton").addClass("disabled");                
+	            }
+			}
+			
+			$('#submitButton').click(function(){
+			
+				$.post("/login/findPw"
+						,{
+							memberId : $("#memberId").val()
+							, memberName : $("#memberName").val()
+						}
+						, function(data){
+							if($.trim(data)){
+								//아이디 찾기 영역 보여주기
+								$("#findPwResultDiv").show();
+								$("#findPwResultErrMsg").hide();
+								//아이디 찾기 결과 데이터 넣어주기
+								$("#findPwResult").text(data);
+							}else{
+								$("#findPwResultDiv").hide();							
+								$("#findPwResultErrMsg").show();				
+							}
+							chkSubmitBtn();
+						}	
+				);
+        	});
+	        	
+    	</script>
+	</th:block>
+</html>
