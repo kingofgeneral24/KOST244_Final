@@ -1,6 +1,6 @@
 package com.kosta.finalproject.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.AttributeConverter;
@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+
 
 import lombok.Data;
 
@@ -46,6 +47,7 @@ public class Board {
 	@Column(name = "BOARD_CONTENTS")
 	private String boardContents;
 	
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	@Column(name="BOARD_STARTTIME")
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
@@ -55,23 +57,23 @@ public class Board {
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
 
-	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Override
 	public Date convertToDatabaseColumn(String attribute) {
-		// 2018-06-07 00:00
-		java.util.Date date = null;
-		System.out.println("attribute : " + attribute);
+		// 2018-06-07T00:00
+		Date date = null;
+		//System.out.println("attribute : " + attribute);
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
 		System.out.println("st : " + st);
 		
 		try {
-			date = sf.parse(st);
+			date = (Date)sf.parse(st);
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return date;
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package com.kosta.finalproject.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kosta.finalproject.model.Board;
+import com.kosta.finalproject.model.CarInfo;
 import com.kosta.finalproject.repository.BoardRepository;
+import com.kosta.finalproject.repository.CarInfoRepository;
 
 
 //뷰와 모델의 다리역할, 뷰로부터 사용자의 인터랙션을 받아 모델에 전달하고, 
@@ -22,10 +27,11 @@ import com.kosta.finalproject.repository.BoardRepository;
 @Controller //
 @RequestMapping("/board")
 public class BoardController {
-	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired 
 	private BoardRepository BoardRepository;
-
+	@Autowired
+	private CarInfoRepository carInfoRepository;
 	
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -64,11 +70,58 @@ public class BoardController {
 		//redirect로 페이지 이동함
 	}
 	
-	@Transactional
-	@GetMapping("/delete")
-    public String boardDelete(Model model, Integer boardNo){
-		BoardRepository.deleteByboardNo(Long.valueOf(boardNo));
-		return "redirect:/board/list";
-    }
+	@GetMapping("/insertDriverBoard")
+	public String driverBoard(Model model, Long boardNo) {
+		if(boardNo == null) {
+			model.addAttribute("driverBoard",new Board());
+			model.addAttribute("carInfo", new CarInfo());
+		} else {
+			Optional<Board> driverBoard = BoardRepository.findById(boardNo);
+			Optional<CarInfo> carInfo =carInfoRepository.findById(boardNo);
+			model.addAttribute("driverBoard", driverBoard);
+			model.addAttribute("carInfo", carInfo);
+		}
+		return "aaa";
+	}
+	
+	@PostMapping("/insertDriverBoard")
+	public String insertDriverBoard(Board board
+			,
+			CarInfo carInfo
+			)
+	{
+		logger.error("board = " + board);
+		logger.error("carInfo= " + carInfo);
+		Long insertedBoardNo = BoardRepository.save(board).getBoardNo();
+		carInfo.setBoardNo(insertedBoardNo);
+		carInfoRepository.save(carInfo);
+		return "aaa";
+	}
+	
+	
+//	@Transactional
+//	@GetMapping("/delete")
+//    public String boardDelete(Model model, Integer boardNo){
+//		//carInfoRepository.deleteById(boardNo);
+//		BoardRepository.deleteByboardNo(Long.valueOf(boardNo));
+//		return "redirect:/board/list";
+//    }
+	
+	 @GetMapping("/delete")
+	    public String boardDelete(Model model, Long boardNo){
+	      BoardRepository.deleteById(boardNo);
+	      //return "redirect:/board/findcarlist";
+	      return "aaa";
+	    }
+	   
+
+	   @Transactional
+	   @GetMapping("/deletecarinfonboard")
+	    public String deleteCarInfoNBoard(Model model, Long boardNo){
+	      carInfoRepository.deleteById(boardNo);
+	      BoardRepository.deleteById(boardNo);
+	      //return "redirect:/board/findcarlist";
+	      return "aaa";
+	    }
 
 }

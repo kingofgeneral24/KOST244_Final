@@ -2,6 +2,7 @@ package com.kosta.finalproject.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import lombok.Data;
 @Data
 
 public class CarInfo {
+	@Id
 	@Column(name = "BOARD_NO")
 	private Long boardNo;
 	@Column(name = "CAR_TYPE")

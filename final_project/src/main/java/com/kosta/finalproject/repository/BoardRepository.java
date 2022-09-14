@@ -6,11 +6,12 @@ import com.kosta.finalproject.model.Board;
 
 
 
-public interface BoardRepository  extends JpaRepository<Board, Integer> {
+public interface BoardRepository  extends JpaRepository<Board, Long> {
 
 	Board findByboardNo(Long boardNo);
 
-	void deleteByboardNo(Long boardNo);
+	//void deleteByboardNo(Long boardNo);
 
+	
 	
 }
