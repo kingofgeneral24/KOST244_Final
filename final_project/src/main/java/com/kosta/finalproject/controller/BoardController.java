@@ -40,6 +40,9 @@ public class BoardController {
 		model.addAttribute("boards",boards);
 		return "/board/findcarlist";
 	}
+	//현호님한테 보드리스트 나눈거 체크하고 그코드받아서 findpassengerlist로 맵핑되는 메서드만들고
+	//여기서 게시글 클릭하는거는 게시글 상세보기니까 html 버튼이 달라지겠지 목록보기 댓글달기 수정하기 인데
+	//조건문으로 작성자이면 수정하기 버튼보이게 작성자가 아니면 버튼 두개만보이게 지정
 	
 	// 글 쓰기 및 글 수정
 	@GetMapping("/findcarform")
@@ -70,7 +73,7 @@ public class BoardController {
 		//redirect로 페이지 이동함
 	}
 	
-	@GetMapping("/insertDriverBoard")
+	@GetMapping("/findpassengerform")
 	public String driverBoard(Model model, Long boardNo) {
 		if(boardNo == null) {
 			model.addAttribute("driverBoard",new Board());
@@ -84,7 +87,7 @@ public class BoardController {
 		return "aaa";
 	}
 	
-	@PostMapping("/insertDriverBoard")
+	@PostMapping("/findpassengerform")
 	public String insertDriverBoard(Board board
 			,
 			CarInfo carInfo
