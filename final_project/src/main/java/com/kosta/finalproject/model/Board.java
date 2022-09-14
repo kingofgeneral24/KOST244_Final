@@ -64,10 +64,8 @@ class StringToDate implements AttributeConverter<String, Date> {
 	public Date convertToDatabaseColumn(String attribute) {
 		// 2018-06-07T00:00
 		Date date = null;
-		System.out.println("attribute : " + attribute);
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
-		System.out.println("st : " + st);
 		
 		try {
 			date = (Date) sf.parse(st);

@@ -35,10 +35,19 @@
     </tr>
   </tbody>
 </table>
+<<<<<<< Updated upstream
   <div class="text-align:right">
     <a type="button" th:href="@{/board/form}">글올리기</a>
   </div>
 	
+=======
+	<!-- 타임리프 로그인 세션 체크 하기, 세션이 있으면-->
+	<th:block th:if="${session.loginInfo != null}">
+  <div class="text-align:right">
+    <a type="button" th:href="@{/board/form}">글올리기</a>
+  </div>
+	</th:block>
+>>>>>>> Stashed changes
 </body>
 
 </html>

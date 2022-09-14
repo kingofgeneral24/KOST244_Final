@@ -45,6 +45,7 @@ public class BoardController {
 	public String form(Model model, @RequestParam(required = false) Long boardNo,
 						HttpSession session){
 
+		
 		if(boardNo==null) { //null일 경우 새 보드를 생성해서 타임리프에 넘겨줌
 			Board board = new Board();
 			
@@ -71,6 +72,7 @@ public class BoardController {
 		return "redirect:/board/list";
 		//redirect로 페이지 이동함
 	}
+	
 	
 	@Transactional
 	@GetMapping("/delete")
