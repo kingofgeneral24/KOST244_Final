@@ -217,10 +217,62 @@ public class MemberController {
 	  */
 	
 		//delete요청 삭제
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/deleteMember")
 	public ResponseEntity deleteAjax(@PathVariable Long id) {
 		memberService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK); //ajax 호출한 부분에 리턴으로 200 응답을 줌.
 		
 	}
-	}
+
+	/*비밀번호 변경페이지에서 현재 비밀번호 검증*/
+   @PostMapping("/pwChk")
+   @ResponseBody
+   public String login (MemberDTO memberDTO, HttpSession session) {
+	   
+	   //로그인 세션정보를 dto에 맵핑한다.
+	   MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+          
+      //로그인 세션에 있는 현재 비밀번호
+      String nowPw = loginInfo.getMemberPassword();
+      //html 비밀번호 변경페이지에서 입력한 현재 비밀번호
+      String inputPw = memberDTO.getMemberPassword();
+	      
+      return memberService.pwChk(inputPw, nowPw);
+   }  
+
+	/*비밀번호 변경하기*/
+   @PostMapping("/updatePassword")
+   public String updatePassword (MemberDTO memberDTO, HttpSession session) {
+	   
+	   //로그인 세션정보를 dto에 맵핑한다.
+	   MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+	   
+	   memberDTO.setMemberNo(loginInfo.getMemberNo());
+	   
+	   log.info("memberDTOupdatePassword  >>>>>>>>>>>>>>> "+memberDTO.toString());
+      
+	   Long result = memberService.updatePassword(memberDTO);
+      
+	   if(result >0 ) {
+		   return "redirect:/member/myPage";    	  
+	   }else {
+		   return "redirect:/member/myPage";
+      }
+   }
+
+	/*비밀번호 변경하기*/
+   @PostMapping("/updateMember")
+   public String updateMember(MemberDTO memberDTO) {
+
+	   log.info("memberDTO updateMember  >>>>>>>>>>>>>>> "+memberDTO.toString());
+	   
+	   Long result = memberService.updateMember(memberDTO);
+	   
+	   if(result >0 ) {
+		   return "redirect:/member/myPage";    	  
+	   }else {
+		   return "redirect:/member/myPage";
+      }
+
+   }
+}

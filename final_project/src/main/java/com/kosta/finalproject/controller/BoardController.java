@@ -46,7 +46,6 @@ public class BoardController {
 		if(boardNo==null) { //null일 경우 새 보드를 생성해서 타임리프에 넘겨줌
 			MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo");
 			//로그인 세션에서 값을꺼내 컨트롤러에서 사용하는방법
-			//로그인 세션객체를 회원 Dto로 맵핑함 (값을 꺼내기위해서)
 			Board board = new Board();
 			board.setMemberId(memberDTO.getMemberId()); //게시판 작성자 dto변수에 set하면됨.
 			//게시판인서트하면 작성자가 > 로그인한사람이 됨

@@ -83,14 +83,12 @@ layout:decorate="~{layout/layout}"  란?
 	        });
 	        
 	        function chkSubmitBtn(){
-
 	            let flag = true;
 	            $("input").each(function (index, item) {
 	                if($.trim($(this).val()) == ""){
 	                    flag = false;
 	                }
 	            });
-            	
             	if($(".invalid-feedback:visible").length == 0 && flag){
 	                $("#submitButton").removeClass("disabled");
 	            }else{
@@ -99,28 +97,28 @@ layout:decorate="~{layout/layout}"  란?
 			}
 			
 			$('#submitButton').click(function(){
-			
-				$.post("/login/findPw"
-						,{
-							memberId : $("#memberId").val()
-							, memberName : $("#memberName").val()
+				$.post(
+					"/login/findPw"
+					, {
+						memberId : $("#memberId").val()
+						, memberName : $("#memberName").val()
+					}
+					, function(data){
+						if($.trim(data)){
+							//아이디 찾기 영역 보여주기
+							$("#findPwResultDiv").show();
+							$("#findPwResultErrMsg").hide();
+							//아이디 찾기 결과 데이터 넣어주기
+							$("#findPwResult").text(data);
+						}else{
+							$("#findPwResultDiv").hide();							
+							$("#findPwResultErrMsg").show();				
 						}
-						, function(data){
-							if($.trim(data)){
-								//아이디 찾기 영역 보여주기
-								$("#findPwResultDiv").show();
-								$("#findPwResultErrMsg").hide();
-								//아이디 찾기 결과 데이터 넣어주기
-								$("#findPwResult").text(data);
-							}else{
-								$("#findPwResultDiv").hide();							
-								$("#findPwResultErrMsg").show();				
-							}
-							chkSubmitBtn();
-						}	
+						chkSubmitBtn();
+					}	
 				);
         	});
-	        	
     	</script>
+
 	</th:block>
 </html>
