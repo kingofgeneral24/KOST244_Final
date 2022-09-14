@@ -33,16 +33,16 @@ public class BoardController {
 	@Autowired
 	private CarInfoRepository carInfoRepository;
 	
-	@GetMapping("/list")
+	@GetMapping("/findcarlist")
 	public String list(Model model) {
 		//model에 원하는 값을 넘겨주면됨
 		List<Board> boards = BoardRepository.findAll();
 		model.addAttribute("boards",boards);
-		return "/board/list";
+		return "/board/findcarlist";
 	}
 	
 	// 글 쓰기 및 글 수정
-	@GetMapping("/form")
+	@GetMapping("/findcarform")
 	public String form(Model model, @RequestParam(required = false) Long boardNo) {
 		//boardNo가 null인지 판단하기 위헤 Integer 사용, int&Long은 null체크 못함
 		//@RequestParam : 필수인지 아닌지
@@ -55,18 +55,18 @@ public class BoardController {
 			model.addAttribute("board", board);
 		}
 		
-		return "/board/form";
+		return "/board/findcarform";
 	}
 	
 	
-	@PostMapping("/form")
+	@PostMapping("/findcarform")
 	public String formSubmit(@Validated Board board, BindingResult bindingResult) {
 	//유효성 검사 어노테이션
 		//System.out.println("시간시간시간"+board.getBoardStarttime());
 		System.out.println("@@보드보드"+board.getBoardStarttime());
 		BoardRepository.save(board);
 		//save에서 @id 값이 있는 경우엔 update가 실행되고, 없는경우엔 새로 생성됨
-		return "redirect:/board/list";
+		return "redirect:/board/findcarlist";
 		//redirect로 페이지 이동함
 	}
 	
@@ -107,16 +107,15 @@ public class BoardController {
 //		return "redirect:/board/list";
 //    }
 	
-	 @GetMapping("/delete")
-	    public String boardDelete(Model model, Long boardNo){
-	      BoardRepository.deleteById(boardNo);
-	      //return "redirect:/board/findcarlist";
-	      return "aaa";
-	    }
-	   
+	@GetMapping("/findcardelete")
+	public String deleteBoard(Model model, Long boardNo){
+	    BoardRepository.deleteById(boardNo);
+	    return "redirect:/board/findcarlist";
+	}
+	 
 
-	   @Transactional
-	   @GetMapping("/deletecarinfonboard")
+	 @Transactional
+	 @GetMapping("/findpassengerdelete")
 	    public String deleteCarInfoNBoard(Model model, Long boardNo){
 	      carInfoRepository.deleteById(boardNo);
 	      BoardRepository.deleteById(boardNo);
