@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<!-- layout.html -->
+
+<!-- 
+layout:decorate="~{layout/layout}"  란?
+- 기본 레이아웃을 layout/layout.html 으로 선언
+- 버전마다 선언방법이 다름 아래 참조.
+- layout:decorate thymeleaf 3.* ver (이거 사용함)
+- layout:decorator thymeleaf 2.* ver
+ <th:block layout:fragment="content">
+- 각 파일 마다, 위 코드 다음부터 작성한 내용들이 default_layout.html 의 content 부분에 위치함
+-->
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+	</head>      
+ 	<!-- 해당 html페이지에서만 사용할 css, script  -->
+ 	<th:block layout:fragment="css"></th:block>  
+ 	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="content">
+	<main class="mt-1 pt-1">
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">일반 상세보기</h1>
+			<div class="card mb-4">
+				<div class="card-body">
+					<form id="frm" name="frm">
+						<div class="mb-3 mt-3">
+							<label for="bno" class="form-label">게시판 번호</label> 
+							<input type="text" class="form-control" id="pNo" name="pNo" value="" readOnly>
+						</div>
+						<div class="mb-3">
+							<label for="writer" class="form-label">작성자</label> 
+							<input type="text" class="form-control" id="userNo" name="userNo" value="" readOnly>
+						</div>
+						<div class="mb-3">
+							<label for="title" class="form-label">제목</label> <input
+								type="text" class="form-control" id="pTitle" name="pTitle" value="" readOnly>
+						</div>
+						<div class="mb-3">
+							<label for="content" class="form-label">내용</label>
+							<textarea class="form-control" id="pContent" name="pContent" readOnly></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="content" class="form-label">비고</label>
+							<textarea class="form-control" id="pContent" name="pContent" readOnly></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="regDate" class="form-label">등록일</label> 
+							<input type="text" class="form-control" id="pCreateday" name="pCreateday" value="" readOnly>
+						</div>
+						<a href="myPagePostList" class="btn btn-outline-secondary">목록으로</a> 
+						<a href="#" class="btn btn-outline-warning" id="btnUpt">수정하기</a>
+						<a href="#" class="btn btn-outline-danger" id="btnDel">삭제하기</a>
+					</form>
+				</div>
+			</div>
+		</div>
+		</main>		
+		<script>
+	    </script>
+	</th:block>
+</html>

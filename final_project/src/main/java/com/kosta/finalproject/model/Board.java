@@ -1,8 +1,7 @@
 package com.kosta.finalproject.model;
 
-
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -18,11 +17,17 @@ import lombok.Data;
 
 @Entity(name = "BOARD")
 @Data
-@SequenceGenerator(name = "BOARD_SEQ_GENERATOR", sequenceName = "BOARD_SEQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
+sequenceName = "BOARD_SEQ", 
+initialValue = 1, 
+allocationSize = 1)
 
 public class Board {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator="BOARD_SEQ_GENERATOR"
+	) 
+	
 	@Column(name = "BOARD_NO")
 	private Long boardNo;
 
@@ -51,30 +56,28 @@ public class Board {
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
 
-
-
 }
 
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
 
-	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
 	public Date convertToDatabaseColumn(String attribute) {
-		// 2018-06-07T00:00
-		Date date = null;
+		// 2018-06-07 00:00
+		java.util.Date date = null;
 		System.out.println("attribute : " + attribute);
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
 		System.out.println("st : " + st);
 		
 		try {
-			date = (Date) sf.parse(st);
+			date = sf.parse(st);
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
-		return date;
+		return null;
 	}
 
 	@Override
