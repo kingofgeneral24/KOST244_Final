@@ -41,12 +41,11 @@ layout:decorate="~{layout/layout}"  란?
 				                <tbody>
 				                    <tr>        
 				                        <td>
-				                            <strong>
-			                                	<span class="glyphicon glyphicon-asterisk text-primary"></span>
-				                                Id                                                
+				                            <strong> 
+			                                	<span class="glyphicon glyphicon-asterisk text-primary"></span>                               
 				                            </strong>
 				                        </td>
-			                        	<td class="text-primary"  th:text="${memberInfo.memberId}" ></td>
+			                        	<td class="text-primary" id=memberId  th:text="${memberInfo.memberId}" ></td>
 				                    </tr>
 				                    <tr>    
 				                        <td>
@@ -134,7 +133,7 @@ layout:decorate="~{layout/layout}"  란?
 			</div>
 			</div>           	    
 	    </section>
-		<script>
+		<script>  
 				/*비밀번호 변경페이지 이동*/
 				$("#btnPwUpdate").click(function(){		
 					 location.href="/member/passwordUpdateForm";
@@ -147,7 +146,8 @@ layout:decorate="~{layout/layout}"  란?
 
 				/*회원탈퇴 클릭 이벤트*/		
 				$("#btnMemberDelete").click(function(){
-		    		Swal.fire({
+					var memberId = $("#memberId").text()
+		    		Swal.fire({ 
 		   				title: '정말로 회원을 탈퇴하시겠습니까?',
 				   		//text: '다시 되돌릴 수 없습니다. 신중하세요.',
 				   		icon: 'warning',
@@ -158,8 +158,8 @@ layout:decorate="~{layout/layout}"  란?
 					   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 					}).then(function(result){
 						if(result.isConfirmed == true){		
+							 location.href="/member/delete/"+memberId;
 						
-							
 						}
 					});		
 				});

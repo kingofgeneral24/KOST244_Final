@@ -205,24 +205,28 @@ public class MemberController {
 	}
 	
 	//get 요청 삭제 /member/delete/3
-	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Long id ) {
-		memberService.delete(id);
+	@GetMapping("/delete/{memberId}")
+	public String delete(@PathVariable String memberId) {
+		MemberDTO memberDTO = memberService.findByMemberId(memberId);
+		Long memberNo =memberDTO.getMemberNo();
+		memberService.delete(memberNo);
 		return "redirect:/member/loginForm";
 	//	return"memberPages.list";//X
+	//ajax안쓰는 거
 	}
 	
+
 	/**
 	  * /member/3: 조회(get) R, 저장(post) C, 수정(put) U, 삭제(delete)  D
 	  */
 	
 		//delete요청 삭제
 	@DeleteMapping("/deleteMember")
-	public ResponseEntity deleteAjax(@PathVariable Long id) {
-		memberService.delete(id);
-		return new ResponseEntity<>(HttpStatus.OK); //ajax 호출한 부분에 리턴으로 200 응답을 줌.
-		
-	}
+	public ResponseEntity deleteAjax(@PathVariable Long memberNo) {
+		memberService.delete(memberNo);
+		return new ResponseEntity<>(HttpStatus.OK); //ajax  쓰는 거/호출한 부분에 리턴으로 200 응답을 줌.
+	
+}
 
 	/*비밀번호 변경페이지에서 현재 비밀번호 검증*/
    @PostMapping("/pwChk")

@@ -124,10 +124,11 @@ public class MemberService {
 		return memberDTOList;
 	}
 
-	public void delete(Long id) {
-		memberRepository.deleteById(id);
+	public void delete(Long memberNo) {
+	
+		memberRepository.deleteById(memberNo);
 	}
-
+	
 	
 	/*아이디 찾기 > 메일주소, 이름으로 찾는다. */
 	public MemberDTO findByMemberEmailAndMemberName(MemberDTO memberDTO) {
@@ -303,6 +304,4 @@ public class MemberService {
 		}
 
 	}
-	//회원 정보 삭제한다
-	
 }

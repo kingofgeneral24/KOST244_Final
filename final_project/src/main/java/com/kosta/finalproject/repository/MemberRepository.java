@@ -18,4 +18,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long>{
 
 	//비밀번호 찾기 , 아이디와 이름으로 조회
 	Optional<MemberEntity> findByMemberIdAndMemberName(String memberId, String memberName);	
+
+
 }
