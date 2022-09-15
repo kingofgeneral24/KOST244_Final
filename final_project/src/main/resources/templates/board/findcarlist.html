@@ -34,10 +34,67 @@
       <td th:text="${board.boardStarttime}">@mdo</td>
       <td th:text="${board.memberId}">@mdo</td>
     </tr>
+    
+    <!--
+    <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+      <a th:if="${page != nowPage}" th:href="@{/board/list(page=${page - 1})}" th:text="${page}"></a>
+      <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>
+    </th:block>
+    -->
+    
+    
   </tbody>
 </table>
+<!--  검색 -->
+<form class="d-flex" style="position: relative; top: 40px;" method="get" th:action="@{/}">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+           id="search" name="search" th:value="${param.search}">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+
+<!--
+<th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+  <a th:if="${page != nowPage}" th:href="@{/board/list(page=${page-1}, searchKEyword=${param.searchKeyword})}" th:text="${page}"></a>
+  <strong th:if="${page == nowPage}" th:text="${page}" style="color:red"></strong>
+</th:block>
+<form th:action="@{/board/list}" method="get">
+  <input type="text" name="searchKeyword">
+  <button type="submit">검색</button>
+</form>
+-->
+
+  <!--
+  <form action="/board/search" method="GET">
+    <div>
+      <input name="keyword" type="text" placeholder="검색어를 입력해주세요">
+    </div>
+    <button>검색하기</button>
+  </form>
+  -->
+  
+  <!--
+  <div>
+    <form name="search-form" autocomplete="off">
+      <select name="type">
+        <option selected value="">검색 내용 선택</option>
+        <option value="title">제목</option>
+        <option value="content">내용</option>
+        <option value="writer">작성자</option>
+      </select>
+      <input type="text" name="keyword" value=""></input>
+      <input type="button", onclick="getSearchList()" class="btn btn-outline-primary mr-2" value="검색"></input>
+      <a href="/board/write"><button class="btn btn-outline-primary mr-3">글쓰기</button></a>
+    </form>
+  </div>
+    -->
+  
+  <!--       -->
   <div class="text-align:right">
     <a type="button" th:href="@{/board/form}">글올리기</a>
+  </div>
+  <div class="pagegroup">
+    PREV 1 2 3 4 5 NEXT
   </div>
 	
 </body>

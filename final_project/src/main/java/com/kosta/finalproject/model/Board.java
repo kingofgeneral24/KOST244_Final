@@ -13,9 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Data;
 
-@Entity(name = "BOARD")
+@Entity(name = "TEST_BOARD")///////////////////////////////////
 @Data
 @SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
 sequenceName = "BOARD_SEQ", 
@@ -55,8 +57,20 @@ public class Board {
 	@Column(name="BOARD_STARTTIME")
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
+	
+	
+	///////////////////////////////////
+	@Column(name = "BOARD_PARENT_NO")
+	@ColumnDefault(value = "0")
+	private Long boardParentNo;
+	
+	//----------검색----------
+//	private String type;
+//	private String keyword;
+	// ----------------------
 
 }
+
 
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
