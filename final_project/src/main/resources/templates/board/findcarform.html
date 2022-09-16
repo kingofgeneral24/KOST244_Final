@@ -1,6 +1,11 @@
 <!doctype html>
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout/layout}">
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout}">
+
 
 <head>
 	<meta charset="utf-8">
@@ -45,26 +50,55 @@
 					<textarea class="form-control" placeholder="글내용을 적어주십시오" id="contents" style="height: 100px"
 						rowa="3" th:field="*{boardContents}"></textarea>
 				</div>
-
+				<!-- 이부분에 승객 테이블 보여줄거임 -->
+				<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">탑승목록</th>
+						<th scope="col">허가/거절</th>
+						<th scope="col">확정</th>
+					</tr>
+				</thead>
+					<tr th:each="passenger: ${passenger}">
+						<td th:text="${passenger.memberId}"></td>
+						<td><a type="button" class="btn btn-success">허가
+							<a type="button" class="btn btn-secondary">거절</td>
+						<td>X</td>
+					</tr>
+				</table>
+				<!-- 모든 사용자에게 돌아가기 버튼 제공 -->
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="text-right">
-						<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a>&nbsp;
+					<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a>&nbsp;
+					
+					<!-- 로그인한 사용자는 운전자 신청 버튼 제공 -->	
+					<th:block th:if="${session.loginInfo != null}" class='right-box'>
 						
-						<th:block th:if="${session.loginInfo.memberId == board.memberId}">
-						<button type="submit" class="btn btn-primary" id="findcarsave">저장</button>&nbsp;
-						<a class="btn btn-primary" id="findcardelete">글 삭제</a>
+						<th:block th:if="${session.loginInfo.memberId != board.memberId}">
+						<a type="button"  class="btn btn-info" id="addPassenger"> 운전자신청</a>
 						</th:block>
-					</div>
+						<!-- <a type="text" th:field="*{session.loginInfo.memberId}">ssss</a> -->
+						
+						<!-- <input type="text" th:text="${session.loginInfo.memberId}" id="testid" ></a> -->
+						
+						<!-- 글쓴이에게는 글 저장, 삭제 버튼 제공 -->
+						<th:block th:if="${session.loginInfo.memberId == board.memberId}">
+							<button type="submit" class="btn btn-primary" id="findcarsave">저장</button>&nbsp;
+							<a class="btn btn-primary" id="findcardelete">글 삭제</a>
+						</th:block>
+					
+					</th:block>
 				</div>
 			</form>
+			</div>
+			
 	</body>
 	
 	<script>
-		/*회원탈퇴 클릭 이벤트*/		
+		/*글 삭제 클릭 이벤트*/		
 				$("#findcardelete").click(function(){
-					var memberId = document.getElementById("boardnum").value;
+					var bNo = document.getElementById("boardnum").value;
 		    		Swal.fire({ 
-		   				title: '정말로 회원을 탈퇴하시겠습니까?',
+		   				title: '삭제하시겠습니까?',
 				   		//text: '다시 되돌릴 수 없습니다. 신중하세요.',
 				   		icon: 'warning',
 				   		showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -75,12 +109,30 @@
 					}).then(function(result){
 						if(result.isConfirmed == true){		
 							alert("삭제되었습니다");
-							 location.href="/board/findcardelete?boardNo="+memberId;
+							 location.href="/board/findcardelete?boardNo="+bNo;
 						
 						}
 					});		
 				});
-	
+		/*운전자신청 클릭 이벤트*/
+		$("#addPassenger").click(function(){
+			//alert("clicked");
+					// var mId = document.getElementById("loginId").value;
+					var mId = document.getElementById("userid").value;
+					var bNo2 = document.getElementById("boardnum").value;
+					Swal.fire({
+						title : '신청하시겠습니까?',
+						confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+					   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+					}).then(function(result){
+						if(result.isConfirmed==true){
+							alert("신청되었습니다");
+						
+							location.href="/board/findcaraddpassenger?boardNo="+bNo2;
+						}
+					});
+					return false;
+				});
 	</script>
 	
 </html>

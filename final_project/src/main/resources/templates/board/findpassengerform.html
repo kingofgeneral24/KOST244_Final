@@ -23,44 +23,39 @@
 				th:object="${board}" method="post">
 				<!-- 같은 페이지에서 이동시 form action="#"을 사용함 -->
 				<input type="hidden" id="boardnum" th:field="*{boardNo}">
+			
 				<div class="form-group">
-					<label for="userid">글쓴이</label> <input type="text"
-						class="form-control" id="userid" th:field="*{memberId}" readonly>
+					<label for="userid">글쓴이</label> 
+					<input type="text" class="form-control" id="userid" th:field="*{memberId}" readonly>
 				</div>
 				<div class="form-group">
-					<label for="title">제목</label> <input type="text"
-						class="form-control" id="title" th:field="*{boardTitle}">
+					<label for="title">제목</label> 
+					<input type="text" class="form-control" id="title" th:field="*{boardTitle}">
 				</div>
-
 				<div class="form-group">
-					<label for="startpoint">출발지</label> <input type="text"
-						class="form-control" id="startpoint" th:field="*{boardStartpoint}">
-					<label for="endpoint">도착지</label> <input type="text"
-						class="form-control" id="endpoint" th:field="*{boardEndpoint}">
+					<label for="startpoint">출발지</label>
+					<input type="text" class="form-control" id="startpoint" th:field="*{boardStartpoint}">
+					<label for="endpoint">도착지</label> 
+					<input type="text" class="form-control" id="endpoint" th:field="*{boardEndpoint}">
 				</div>
 
 				<div class="projectView_deadlineDay">
-					<label for="time" class="form-label">출발일시</label> <input
-						type="datetime-local" class="form-control" id="startTime"
+					<label for="time" class="form-label">출발일시</label>
+					<input type="datetime-local" class="form-control" id="startTime"
 						th:field="*{boardStarttime}"
 						min="${#calendars.format(#calendars.createNow(),'yyyy-MM-dd HH:mm'}">
 				</div>
 
 				<th:block>
-					<tr th:each="passenger: ${passenger}">
-						<td th:text="${passenger.memberId}"></td>
-					</tr>
+					<div th:each="carInfo: ${carInfo}">
+						<label for="cartype">차종</label> 
+						<input type="text" class="form-control" id="cartype" th:field="${carInfo.carType}"> 
+						<label for="maxseat">좌석인원</label> 
+						<input type="text" class="form-control" id="maxseat" th:field="${carInfo.maxSeat}"> 
+						<label for="caryear">년식</label>
+						<input type="text" class="form-control" id="caryear" th:field="${carInfo.carYear}"> 
+					</div>
 				</th:block>
-
-				<div class="form-group">
-					<label for="cartype">차종</label> 
-					<input type="text" class="form-control" id="cartype" th:object="${carInfo.carType}"> 
-		<!-- 			<label for="maxseat">좌석인원</label> 
-					<input type="text" class="form-control" id="maxseat" th:field="*{maxSeat}"> 
-					<label for="caryear">년식</label>
-					<input type="text" class="form-control" id="caryear" th:field="*{carYear}"> -->
-				</div>
-
 				<div class="form-group">
 					<label for="content">내용</label>
 					<textarea class="form-control" placeholder="글내용을 적어주십시오"
@@ -72,13 +67,23 @@
 					<div class="text-right">
 						<a type="button" th:href="@{/board/findpassengerlist}"
 							class="btn btn-primary" id="btnPassengerBoardList">목록보기</a>&nbsp;
-
-						<th:block th:if="${session.loginInfo.memberId == board.memberId}">
-							<button type="submit" class="btn btn-primary" id="findcarsave">저장</button>&nbsp;
+						<th:block th:if="${board.boardNo == null}">	
+							<a type="button" th:href="@{/board/findpassengeform}"
+							class="btn btn-primary" id="findPassengerSave">저장</a>&nbsp;
+							
+						</th:block>
 						
+						<th:block th:if="${session.loginInfo.memberId == board.memberId}">
+							<a type="button" th:href="@{/board/findpassengerform}"
+							class="btn btn-primary" id="btnPassengerBoardUpdate">수정</a>&nbsp;	
+							<a type="button" th:href="@{/board/findpassengerdelete}"
+							  class="btn btn-primary" id="findpassengerdelete">삭제</a>
 						</th:block>
 					</div>
 				</div>
+				
+					
+					
 
 			</form>
 		</div>

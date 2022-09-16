@@ -92,23 +92,19 @@ public class BoardController {
 	@GetMapping("/findpassengerform")
 	public String driverBoard(Model model, Long boardNo) {
 		if(boardNo == null) {
-			model.addAttribute("driverBoard",new Board());
+			model.addAttribute("board",new Board());
 			model.addAttribute("carInfo", new CarInfo());
 		} else {
-			Optional<Board> driverBoard = BoardRepository.findById(boardNo);
-			Optional<CarInfo> carInfo =carInfoRepository.findById(boardNo);
-			model.addAttribute("driverBoard", driverBoard);
+			Board board = BoardRepository.findByboardNo(boardNo);
+			CarInfo carInfo =carInfoRepository.findByboardNo(boardNo);
+			model.addAttribute("board", board);
 			model.addAttribute("carInfo", carInfo);
 		}
-		return "/board/findpassengerform";
+		return "/board/findpassengerlist";
 	}
 	
 	@PostMapping("/findpassengerform")
-	public String insertDriverBoard(Board board
-			,
-			CarInfo carInfo
-			)
-	{
+	public String insertDriverBoard(Board board,CarInfo carInfo){
 		logger.error("board = " + board);
 		logger.error("carInfo= " + carInfo);
 		Long insertedBoardNo = BoardRepository.save(board).getBoardNo();
