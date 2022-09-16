@@ -21,7 +21,6 @@ public class BoardService {
 	private BoardRepository boardRepository;
 
 	public Page<Board> boardList(Pageable pageable){
-//		Page<Board> page = boardRepository.findAll(pageable);
 		return boardRepository.findAll(pageable);
 	}
 
@@ -34,8 +33,4 @@ public class BoardService {
 		return boardRepository.findByboardStatus(status, pageable);
 	}
 
-	public Page<Board> boardSearchStatusList(int status, String searchKeyword, Pageable pageable){
-		return boardRepository.findByboardTitleContaining(searchKeyword, pageable);
-	}
-	
 }

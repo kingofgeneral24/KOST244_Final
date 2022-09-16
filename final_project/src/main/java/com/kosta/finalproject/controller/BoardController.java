@@ -108,10 +108,26 @@ public class BoardController {
 //		return "/board/findcarlist";
 //	}
 	@GetMapping("/findcarlist")
-	public String findCarList(Model model) {
-		//model에 원하는 값을 넘겨주면됨
-		List<Board> boards = BoardRepository.findByboardStatus(2);
-		model.addAttribute("boards",boards);
+	public String findCarList(Model model,
+			@PageableDefault(page=0, size=10, sort="boardNo", direction=Sort.Direction.DESC)Pageable pageable, 
+			String searchKeyword){
+		Page<Board> list = null;
+		if(searchKeyword == null || searchKeyword=="") {
+			list = boardService.boardStatusList(2, pageable);
+		}else {
+			list = boardService.boardSearchList(searchKeyword, pageable);
+		}
+		
+
+		int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		
 		return "/board/findcarlist";
 	}
 	
