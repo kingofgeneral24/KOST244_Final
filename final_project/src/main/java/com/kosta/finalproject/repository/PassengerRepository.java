@@ -11,7 +11,12 @@ public interface PassengerRepository extends JpaRepository<Passenger, Integer>{
 
 	//Passenger findByboardNo(Long boardNo);
 	List<Passenger> findByboardNo(Long boardNo);
+	
+	Passenger findByBoardNoAndPassengerId(Long boardNo, String passengerId);
+	
 
+
+	void deleteBypassengerboardNo(Long passengerboardNo);
 
 	
 }
