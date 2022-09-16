@@ -27,6 +27,6 @@ public class Passenger{
 	
 	
 	@Column(name="PASSENGER_CHECK")
-	private String passenger_check = "X";
+	private String passenger_check = "대기중";
 
 }

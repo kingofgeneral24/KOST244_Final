@@ -22,7 +22,10 @@
   
   <body>
   	<div class="container">
-	<h2>운전자 구하는 게시판</h2>	
+	<h2>운전자구함</h2>
+		운전자를 구하는 게시판입니다. 
+    출발지와 목적지를 입력해주시기 바랍니다.
+    <br><br>
 	
     <table class="table">
   	<thead>
@@ -50,12 +53,13 @@
   </table>
 <!-- 타임리프 로그인 세션 체크 하기, 세션이 있으면-->
 	<th:block th:if="${session.loginInfo != null}">
-  <div class="text-align:right">
+  <div align="right">
     <a type="button" th:href="@{/board/findcarform}">글올리기</a>
   </div>
 	</th:block>
+	<br>
 	
-  <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+  <th:block th:each="page:${#numbers.sequence(startPage, endPage)}" align="right">
     <a th:if="${page != nowPage}" th:href="@{/board/findcarlist(page=${page - 1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
     <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>
   </th:block>

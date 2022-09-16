@@ -37,58 +37,58 @@ public class BoardController {
 	@Autowired
 	private PassengerRepository PassengerRepository;
 
-	@Autowired 
+	@Autowired
 	private CarInfoRepository carInfoRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private BoardService boardService;
-	
+
 	@GetMapping("/list")
 	public String boardList(Model model,
-			@PageableDefault(page=0, size=10, sort="boardNo", direction=Sort.Direction.DESC)Pageable pageable, 
-			String searchKeyword){
+			@PageableDefault(page = 0, size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
+			String searchKeyword) {
 		Page<Board> list = null;
-		if(searchKeyword == null) {
+		if (searchKeyword == null) {
 			list = boardService.boardList(pageable);
-		}else {
+		} else {
 			list = boardService.boardSearchList(searchKeyword, pageable);
 		}
 
 		int nowPage = list.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, list.getTotalPages());
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "/board/list";
 	}
+
 	@GetMapping("/findpassengerlist")
 	public String findPassengerList(Model model,
-			@PageableDefault(page=0, size=10, sort="boardNo", direction=Sort.Direction.DESC)Pageable pageable, 
-			String searchKeyword){
+			@PageableDefault(page = 0, size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
+			String searchKeyword) {
 		Page<Board> list = null;
-		if(searchKeyword == null || searchKeyword=="") {
+		if (searchKeyword == null || searchKeyword == "") {
 			list = boardService.boardStatusList(1, pageable);
-		}else {
+		} else {
 			list = boardService.boardSearchList(searchKeyword, pageable);
 		}
-		
 
 		int nowPage = list.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, list.getTotalPages());
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "/board/findpassengerlist";
 	}
-	
+
 //	@Transactional
 //	@GetMapping("/deletecarinfonboard")
 //    public String deleteCarInfoNBoard(Model model, Long boardNo){
@@ -96,7 +96,7 @@ public class BoardController {
 //		BoardRepository.deleteById(boardNo);
 //		return "redirect:/board/findpassengerlist";
 //    }
-	
+
 //	@GetMapping("/findcarlist")
 //	public String list(Model model) {
 //		// model에 원하는 값을 넘겨주면됨
@@ -107,28 +107,27 @@ public class BoardController {
 //	}
 	@GetMapping("/findcarlist")
 	public String findCarList(Model model,
-			@PageableDefault(page=0, size=10, sort="boardNo", direction=Sort.Direction.DESC)Pageable pageable, 
-			String searchKeyword){
+			@PageableDefault(page = 0, size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
+			String searchKeyword) {
 		Page<Board> list = null;
-		if(searchKeyword == null || searchKeyword=="") {
+		if (searchKeyword == null || searchKeyword == "") {
 			list = boardService.boardStatusList(2, pageable);
-		}else {
+		} else {
 			list = boardService.boardSearchList(searchKeyword, pageable);
 		}
-		
 
 		int nowPage = list.getPageable().getPageNumber() + 1;
 		int startPage = Math.max(nowPage - 4, 1);
 		int endPage = Math.min(nowPage + 5, list.getTotalPages());
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "/board/findcarlist";
 	}
-	
+
 	// 글 쓰기 및 글 수정
 	@GetMapping("/findcarform")
 	public String form(Model model, @RequestParam(required = false) Long boardNo, HttpSession session) {
@@ -161,33 +160,38 @@ public class BoardController {
 		return "redirect:/board/findcarlist";
 		// redirect로 페이지 이동함
 	}
-	
-	
+
 	@GetMapping("/findcaraddpassenger")
-	public String addPassenger(Long boardNo, HttpSession session ) {
-		//로그인한 사용자의 정보 가져오기
+	public String addPassenger(Long boardNo,@RequestParam(required = false) String loginId, HttpSession session) {
+		// 로그인한 사용자의 정보 가져오기
 		MemberDTO memberDto = (MemberDTO) session.getAttribute("loginInfo");
+
+		if (PassengerRepository.findByBoardNoAndPassengerId(boardNo, loginId) != null) {
+			System.out.println("@@@@@@test1");
+			return "redirect:/board/findcardeletepassenger?boardNo="+boardNo+"&passengerId="+loginId;
+			
+					///findcardeletepassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId
+		} else {
+			// 새 passenger 객체 만들어서 테이블에 추가함
+			Passenger passenger = new Passenger();
+			passenger.setBoardNo(boardNo);
+			passenger.setPassengerId(memberDto.getMemberId());
+			PassengerRepository.save(passenger);
 		
-		
-		//새 passenger 객체 만들어서 테이블에 추가함
-		Passenger passenger = new Passenger();
-		passenger.setBoardNo(boardNo);
-		passenger.setPassengerId(memberDto.getMemberId());
-		PassengerRepository.save(passenger);
 		return "redirect:/board/findcarform?boardNo="+boardNo;
+		}
 	}
-	
+
 	@Transactional
 	@GetMapping("/findcardeletepassenger")
-	public String deletePassenger(Long boardNo, @RequestParam(required = false) String passengerId, HttpSession session ) {
-		if(passengerId!=null) {
+	public String deletePassenger(Long boardNo, @RequestParam(required = false) String passengerId,
+			HttpSession session) {
+		if (passengerId != null) {
 			Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
 			PassengerRepository.deleteBypassengerboardNo(passenger.getPassengerboardNo());
 		}
-		return "redirect:/board/findcarform?boardNo="+boardNo;
+		return "redirect:/board/findcarform?boardNo=" + boardNo;
 	}
-	
-
 
 	@Transactional
 	@GetMapping("/findcardelete")
