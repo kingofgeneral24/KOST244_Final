@@ -127,6 +127,7 @@ public class MemberService {
 	public void delete(Long memberNo) {
 	
 		memberRepository.deleteById(memberNo);
+
 	}
 	
 	

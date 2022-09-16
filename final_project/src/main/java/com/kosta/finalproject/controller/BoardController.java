@@ -28,54 +28,52 @@ public class BoardController {
 	
 	@Autowired 
 	private BoardRepository BoardRepository;
-
 	
-	@GetMapping("/list")
+	
+	@GetMapping("/findcarlist")
 	public String list(Model model) {
 		//model에 원하는 값을 넘겨주면됨
 		List<Board> boards = BoardRepository.findAll();
+		//List<Board> boards = BoardRepository.findStatus2();
 		model.addAttribute("boards",boards);
-		return "/board/list";
+		return "/board/findcarlist";
 	}
 	
 	// 글 쓰기 및 글 수정
-	@GetMapping("/form")
-	public String form(Model model, HttpSession session, @RequestParam(required = false) Long boardNo) {
-		//boardNo가 null인지 판단하기 위헤 Integer 사용, int&Long은 null체크 못함
-		//@RequestParam : 필수인지 아닌지
+	@GetMapping("/findcarform")
+	public String form(Model model, @RequestParam(required = false) Long boardNo,
+						HttpSession session){
+
 		if(boardNo==null) { //null일 경우 새 보드를 생성해서 타임리프에 넘겨줌
-			MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo");
-			//로그인 세션에서 값을꺼내 컨트롤러에서 사용하는방법
 			Board board = new Board();
-			board.setMemberId(memberDTO.getMemberId()); //게시판 작성자 dto변수에 set하면됨.
-			//게시판인서트하면 작성자가 > 로그인한사람이 됨
-			model.addAttribute("board", board);
-			//model.add
+			//로그인 세션 유지해서 글 쓸때 ID 자동으로 입력되게함
+			MemberDTO memberDto = (MemberDTO) session.getAttribute("loginInfo");
+			board.setMemberId(memberDto.getMemberId());
+			board.setBoardStatus(2);
+			model.addAttribute("board",board);
 		}else {//id가 값이 있을 경우 보드레파지에서 조회해서 넘겨줌
 			Board board = BoardRepository.findByboardNo(boardNo);//.orElse(null);
 			model.addAttribute("board", board);
 		}
 		
-		return "/board/form";
+		return "/board/findcarform";
 	}
 	
 	
-	@PostMapping("/form")
+	@PostMapping("/findcarform")
 	public String formSubmit(@Validated Board board, BindingResult bindingResult) {
 	//유효성 검사 어노테이션
-		//System.out.println("시간시간시간"+board.getBoardStarttime());
-		System.out.println("@@보드보드"+board.getBoardStarttime());
+		board.setBoardStatus(2);
 		BoardRepository.save(board);
-		//save에서 @id 값이 있는 경우엔 update가 실행되고, 없는경우엔 새로 생성됨
-		return "redirect:/board/list";
+		return "redirect:/board/findcarlist";
 		//redirect로 페이지 이동함
 	}
 	
 	@Transactional
-	@GetMapping("/delete")
+	@GetMapping("/findcardelete")
     public String boardDelete(Model model, Integer boardNo){
 		BoardRepository.deleteByboardNo(Long.valueOf(boardNo));
-		return "redirect:/board/list";
+		return "redirect:/board/findcarlist";
     }
 
 }

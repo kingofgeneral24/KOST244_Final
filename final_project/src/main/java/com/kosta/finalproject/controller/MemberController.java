@@ -207,11 +207,16 @@ public class MemberController {
 	//get 요청 삭제 /member/delete/3
 	@GetMapping("/delete/{memberId}")
 	public String delete(@PathVariable String memberId) {
+		
 		MemberDTO memberDTO = memberService.findByMemberId(memberId);
+		
 		Long memberNo =memberDTO.getMemberNo();
+		
 		memberService.delete(memberNo);
-		return "redirect:/member/loginForm";
-	//	return"memberPages.list";//X
+		
+		return "redirect:/login/logout";
+
+		//	return"memberPages.list";//X
 	//ajax안쓰는 거
 	}
 	
@@ -262,6 +267,7 @@ public class MemberController {
 	   }else {
 		   return "redirect:/member/myPage";
       }
+	   
    }
 
 	/*비밀번호 변경하기*/

@@ -1,7 +1,8 @@
 package com.kosta.finalproject.model;
 
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -50,28 +51,30 @@ public class Board {
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
 
+
+
 }
 
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
 
-	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Override
 	public Date convertToDatabaseColumn(String attribute) {
-		// 2018-06-07 00:00
-		java.util.Date date = null;
+		// 2018-06-07T00:00
+		Date date = null;
 		System.out.println("attribute : " + attribute);
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
 		System.out.println("st : " + st);
 		
 		try {
-			date = sf.parse(st);
+			date = (Date) sf.parse(st);
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return date;
 	}
 
 	@Override
