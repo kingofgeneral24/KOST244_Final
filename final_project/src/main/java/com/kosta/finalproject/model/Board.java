@@ -17,7 +17,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 
-@Entity(name = "BOARD")///////////////////////////////////
+@Entity(name = "test_BOARD")///////////////////////////////////
 @Data
 @SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
 sequenceName = "BOARD_SEQ", 

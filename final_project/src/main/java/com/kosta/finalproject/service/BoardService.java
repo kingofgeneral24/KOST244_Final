@@ -21,12 +21,21 @@ public class BoardService {
 	private BoardRepository boardRepository;
 
 	public Page<Board> boardList(Pageable pageable){
-		List<Board>
+//		Page<Board> page = boardRepository.findAll(pageable);
 		return boardRepository.findAll(pageable);
 	}
 
 	public Page<Board> boardSearchList(String searchKeyword, Pageable pageable){
 		return boardRepository.findByboardTitleContaining(searchKeyword, pageable);
 	}
+	
+	
+	public Page<Board> boardStatusList(int status, Pageable pageable){
+		return boardRepository.findByboardStatus(status, pageable);
+	}
 
+	public Page<Board> boardSearchStatusList(int status, String searchKeyword, Pageable pageable){
+		return boardRepository.findByboardTitleContaining(searchKeyword, pageable);
+	}
+	
 }

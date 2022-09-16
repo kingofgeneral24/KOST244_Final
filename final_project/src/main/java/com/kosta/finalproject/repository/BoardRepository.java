@@ -22,7 +22,8 @@ public interface BoardRepository  extends JpaRepository<Board, Long> {
 //			nativeQuery = true)
 	List<Board> findByboardStatus(int status);
 	
-
 	Page<Board> findByboardTitleContaining(String searchKeyword, Pageable pageable);
+	
+	Page<Board> findByboardStatus(int status, Pageable pageable);
 	
 }
