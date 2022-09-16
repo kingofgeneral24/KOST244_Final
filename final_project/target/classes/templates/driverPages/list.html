@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<!-- layout.html -->
+
+<!-- 
+layout:decorate="~{layout/layout}"  란?
+- 기본 레이아웃을 layout/layout.html 으로 선언
+- 버전마다 선언방법이 다름 아래 참조.
+- layout:decorate thymeleaf 3.* ver (이거 사용함)
+- layout:decorator thymeleaf 2.* ver
+ <th:block layout:fragment="content">
+- 각 파일 마다, 위 코드 다음부터 작성한 내용들이 default_layout.html 의 content 부분에 위치함
+-->
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+	</head>      
+ 	<!-- 해당 html페이지에서만 사용할 css, script  -->
+ 	<th:block layout:fragment="css"></th:block>  
+ 	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="content">
+		<main class="mt-1 pt-1">
+		<div class="container-fluid px-4">
+			<h3 class="mt-4">운행 목록</h3>
+			<div class="card mb-4" style="width: 700px;" >
+				<div class="card-body">
+					<table class="table table-hover table-striped"  id="setPostTb">
+						<thead>
+							<tr>
+								<th>글번호</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>작성일</th>
+								<th>작성일</th>
+								<th>작성일</th>
+								<th>작성일</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+		</main>		
+		<script>
+	    </script>
+	</th:block>
+</html>
