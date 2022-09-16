@@ -1,7 +1,7 @@
 package com.kosta.finalproject.model;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -11,8 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
 
 import lombok.Data;
 
@@ -51,6 +53,7 @@ public class Board {
 	@Column(name="BOARD_STARTTIME")
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
+
 
 }
 

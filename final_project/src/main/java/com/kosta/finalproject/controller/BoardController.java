@@ -33,16 +33,32 @@ public class BoardController {
 	@Autowired
 	private CarInfoRepository carInfoRepository;
 	
-	@GetMapping("/findcarlist")
-	public String list(Model model) {
-		//model에 원하는 값을 넘겨주면됨
-		List<Board> boards = BoardRepository.findAll();
-		model.addAttribute("boards",boards);
-		return "/board/findcarlist";
-	}
+	
 	//현호님한테 보드리스트 나눈거 체크하고 그코드받아서 findpassengerlist로 맵핑되는 메서드만들고
 	//여기서 게시글 클릭하는거는 게시글 상세보기니까 html 버튼이 달라지겠지 목록보기 댓글달기 수정하기 인데
 	//조건문으로 작성자이면 수정하기 버튼보이게 작성자가 아니면 버튼 두개만보이게 지정
+	//---------탑승자구하는게시판목록보기------------
+	@GetMapping("/findpassengerlist")
+	   public String findPassengerList(Model model) {
+	      // model에 원하는 값을 넘겨주면됨
+	      // 리스트에서는 carInfo가 필요하지 않을 것 같다
+	      List<Board> boards = BoardRepository.findByboardStatus(1);
+	      model.addAttribute("boards",boards);
+	      return "/board/findpassengerlist";
+	   }
+	
+	//--------------운전자구하는게시판목록보기---------------------
+	@GetMapping("/findcarlist")
+	public String findCarList(Model model) {
+		//model에 원하는 값을 넘겨주면됨
+		List<Board> boards = BoardRepository.findByboardStatus(2);
+		model.addAttribute("boards",boards);
+		return "/board/findcarlist";
+	}
+	//-------------------------------------------------------------
+	
+	
+	
 	
 	// 글 쓰기 및 글 수정
 	@GetMapping("/findcarform")
@@ -84,7 +100,7 @@ public class BoardController {
 			model.addAttribute("driverBoard", driverBoard);
 			model.addAttribute("carInfo", carInfo);
 		}
-		return "aaa";
+		return "/board/findpassengerform";
 	}
 	
 	@PostMapping("/findpassengerform")
@@ -98,7 +114,7 @@ public class BoardController {
 		Long insertedBoardNo = BoardRepository.save(board).getBoardNo();
 		carInfo.setBoardNo(insertedBoardNo);
 		carInfoRepository.save(carInfo);
-		return "aaa";
+		return "redirect:/board/findpassengerlist";
 	}
 	
 	
@@ -123,7 +139,7 @@ public class BoardController {
 	      carInfoRepository.deleteById(boardNo);
 	      BoardRepository.deleteById(boardNo);
 	      //return "redirect:/board/findcarlist";
-	      return "aaa";
+	      return "redirect:/board/findpassengerlist";
 	    }
 
 }
