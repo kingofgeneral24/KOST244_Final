@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -124,12 +122,10 @@ public class MemberService {
 		return memberDTOList;
 	}
 
-	public void delete(Long memberNo) {
-	
-		memberRepository.deleteById(memberNo);
-
+	public void delete(Long id) {
+		memberRepository.deleteById(id);
 	}
-	
+
 	
 	/*아이디 찾기 > 메일주소, 이름으로 찾는다. */
 	public MemberDTO findByMemberEmailAndMemberName(MemberDTO memberDTO) {
@@ -188,9 +184,7 @@ public class MemberService {
 			return tempPw;
 		
 		}else {	
-
 			return "";
-
 		}
 	}
 	
@@ -220,7 +214,6 @@ public class MemberService {
 
     /*회원 번호로 회원정보 조회하기*/
     public MemberDTO findByMemberNo(Long memberNo) {
-    	
 		Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberNo);
 	 
 		if (optionalMemberEntity.isPresent()) {
@@ -229,78 +222,6 @@ public class MemberService {
 		 MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
 		 return memberDTO;
 		} else {
-			return null;
-		}
-
-	}
-
-    /*기존 비밀번호 검증*/
-    public String pwChk(String inputPw, String nowPw) {
-    	//입력한 비밀번호랑 , 로그인정보의 비밀번호가 같으면 success 문자열을 반환
-    	if (passwordEncoder.matches(inputPw, nowPw)) {
-    		return "success";
-    	}else {
-    		return "fail";
-    	}
-    }
-
-    /*비밀번호 변경한다. */
-	public Long updatePassword(MemberDTO memberDTO) {
-		
-		Long memberNo = memberDTO.getMemberNo();
-		
-		String beforePw = memberDTO.getMemberPassword();
-
-		Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberNo);
-		 
-		//아이디와 이름으로 회원정보가 조회가 된다
-		if (optionalMemberEntity.isPresent()) {
-
-			MemberEntity memberEntity = optionalMemberEntity.get();
-			
-			// 암호화 모듈로 들어가서 리턴된 값이 String encodePw에 들어감
-			String encodePw = passwordEncoder.encode(beforePw);
-			
-			//dto에 set
-			memberEntity.setMemberPassword(encodePw);
-				
-			//기존회원번호가 있기때문에 업데이트를 수행함
-			Long savedId = memberRepository.save(memberEntity).getMemberNo();
-			
-			return savedId;
-		
-		}else {	
-
-			return null;
-
-		}
-	}
-
-	 /*회원정보 변경한다. */
-	public Long updateMember(MemberDTO memberDTO) {
-		
-		Long memberNo = memberDTO.getMemberNo();
-		
-		Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberNo);
-		 
-		//아이디와 이름으로 회원정보가 조회가 된다
-		if (optionalMemberEntity.isPresent()) {
-
-			MemberEntity memberEntity = optionalMemberEntity.get();
-			
-			//dto에서 값을 꺼내어 엔티티에 넣어준다.
-			memberEntity.setMemberBirth(memberDTO.getMemberBirth());
-			memberEntity.setMemberEmail(memberDTO.getMemberEmail());
-			memberEntity.setMemberMobile(memberDTO.getMemberMobile());
-			//memberEntity.setMemberName(memberDTO.getMemberName());		변경대상 아님
-			memberEntity.setMemberLicense(memberDTO.getMemberLicense());
-			
-			//엔티티에는 기존회원번호가 있기때문에 업데이트를 수행한다.그리고 회원번호를 반환한다.
-			Long savedId = memberRepository.save(memberEntity).getMemberNo();
-			
-			return savedId;
-	
-		}else {	
 			return null;
 		}
 
