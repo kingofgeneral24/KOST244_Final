@@ -5,9 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
-import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 
@@ -19,16 +19,12 @@ public class Passenger{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PASSENGER_SEQ_GENERATOR")
 	@Column(name="PASSENGER_TABLE_NO")
-	private Long passengerboardNo;
+	private Long passengerNo;
 	
 	@Column(name="BOARD_NO")
 	private Long boardNo;
 	
 	@Column(name="MEMBER_ID")
-	private String passengerId;
-	
-	
-	@Column(name="PASSENGER_CHECK")
-	private String passenger_check = "X";
+	private String memberId;
 
 }
