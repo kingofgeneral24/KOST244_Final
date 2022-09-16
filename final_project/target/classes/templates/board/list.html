@@ -30,7 +30,7 @@
     <!--<tr th:each="board : ${paging}">-->
     <tr th:each="board : ${list}">
       <td th:text="${board.boardNo}">Mark</td>
-      <td><a th:text="${board.boardTitle}" th:href="@{/board/form(boardNo=${board.boardNo})}">Mark</a></td>
+      <td><a th:text="${board.boardTitle}" th:href="@{/board/findcarform(boardNo=${board.boardNo})}">Mark</a></td>
       <td th:text="${board.boardStartpoint}">Otto</td>
       <td th:text="${board.boardEndpoint}">@mdo</td>
       <td th:text="${board.boardStarttime}">@mdo</td>
@@ -40,6 +40,7 @@
     
     
   </tbody>
+<<<<<<<< HEAD:final_project/target/classes/templates/board/list.html
   </table>
 
   <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
@@ -48,6 +49,17 @@
   </th:block>
   
 </div>
+========
+</table>
+
+	
+	<!-- 타임리프 로그인 세션 체크 하기, 세션이 있으면-->
+	<th:block th:if="${session.loginInfo != null}">
+  <div class="text-align:right">
+    <a type="button" th:href="@{/board/findcarform}">글올리기</a>
+  </div>
+	</th:block>
+>>>>>>>> origin/hyepark:final_project/src/main/resources/templates/board/findcarlist.html
 </body>
 
 </html>
