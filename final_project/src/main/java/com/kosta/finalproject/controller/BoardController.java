@@ -73,22 +73,32 @@ public class BoardController {
 		// redirect로 페이지 이동함
 	}
 	
+	
 	@GetMapping("/findcaraddpassenger")
 	public String addPassenger(Long boardNo, HttpSession session ) {
-		System.out.println("@@@성공성공성공" + boardNo);
 		//로그인한 사용자의 정보 가져오기
 		MemberDTO memberDto = (MemberDTO) session.getAttribute("loginInfo");
 		
 		
-		
-		//새 passenger 객체 만들어서 내용 입력
+		//새 passenger 객체 만들어서 테이블에 추가함
 		Passenger passenger = new Passenger();
 		passenger.setBoardNo(boardNo);
-		passenger.setMemberId(memberDto.getMemberId());
+		passenger.setPassengerId(memberDto.getMemberId());
 		PassengerRepository.save(passenger);
 		return "redirect:/board/findcarform?boardNo="+boardNo;
 	}
 	
+	@Transactional
+	@GetMapping("/findcardeletepassenger")
+	public String deletePassenger(Long boardNo, @RequestParam(required = false) String passengerId, HttpSession session ) {
+		if(passengerId!=null) {
+			Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
+			PassengerRepository.deleteBypassengerboardNo(passenger.getPassengerboardNo());
+		}
+		return "redirect:/board/findcarform?boardNo="+boardNo;
+	}
+	
+
 
 	@Transactional
 	@GetMapping("/findcardelete")
