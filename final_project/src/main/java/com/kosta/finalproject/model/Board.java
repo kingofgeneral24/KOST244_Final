@@ -17,7 +17,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 
-@Entity(name = "TEST_BOARD")///////////////////////////////////
+@Entity(name = "BOARD")///////////////////////////////////
 @Data
 @SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
 sequenceName = "BOARD_SEQ", 
@@ -60,14 +60,7 @@ public class Board {
 	
 	
 	///////////////////////////////////
-	@Column(name = "BOARD_PARENT_NO")
-	@ColumnDefault(value = "0")
-	private Long boardParentNo;
-	
-	//----------검색----------
-//	private String type;
-//	private String keyword;
-	// ----------------------
+
 
 }
 
