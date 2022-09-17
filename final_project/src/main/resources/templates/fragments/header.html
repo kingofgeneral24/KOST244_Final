@@ -5,7 +5,9 @@
 	</head>      
     <!--headerFragment 선언-->
     <th:block th:fragment="headerFragment">
+    
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		
             <div class="container px-5">
                <a class="navbar-brand" th:href="@{/home/main}">카부릉</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -42,8 +44,19 @@
                         </li>
                     </ul>
                 </div>
+				<!-- <th:block>
+                <input type="text" name="searchKeyword">
+				<a type="button" th:href="@{/board/list(searchKeyword=test)}">검색</button>
+				</th:block> -->
             </div>
+		
+			 <!-- <form th:action="@{/board/list}" method="get">
+				<input type="text" name="searchKeyword">
+				<button type="submit">검색</button>
+		  </form> -->
+ 
         </nav>
+        
 		<script>
 				$("#logout").click(function(){
 				    Swal.fire({

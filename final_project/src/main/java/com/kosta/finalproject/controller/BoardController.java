@@ -27,6 +27,22 @@ import com.kosta.finalproject.service.BoardService;
 
 //뷰와 모델의 다리역할, 뷰로부터 사용자의 인터랙션을 받아 모델에 전달하고, 
 //바뀐 모델 데이터를 뷰에 다시 전달하여 업데이트함
+/**
+ * @author koeun
+ *
+ */
+/**
+ * @author koeun
+ *
+ */
+/**
+ * @author koeun
+ *
+ */
+/**
+ * @author koeun
+ *
+ */
 @Controller //
 @RequestMapping("/board")
 public class BoardController {
@@ -162,30 +178,44 @@ public class BoardController {
 	}
 
 	@GetMapping("/findcaraddpassenger")
-	public String addPassenger(Long boardNo,@RequestParam(required = false) String loginId, HttpSession session) {
+	public String addPassenger(Long boardNo, @RequestParam(required = false) String loginId, HttpSession session) {
 		// 로그인한 사용자의 정보 가져오기
 		MemberDTO memberDto = (MemberDTO) session.getAttribute("loginInfo");
 
 		if (PassengerRepository.findByBoardNoAndPassengerId(boardNo, loginId) != null) {
-			System.out.println("@@@@@@test1");
-			return "redirect:/board/findcardeletepassenger?boardNo="+boardNo+"&passengerId="+loginId;
-			
-					///findcardeletepassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId
+			// 운전자 신청을 이미 한 사람은 삭제됨
+			return "redirect:/board/findcardeletepassenger?boardNo=" + boardNo + "&passengerId=" + loginId;
 		} else {
+			// 운전자신청을 처음 누른 사람은 등록됨
 			// 새 passenger 객체 만들어서 테이블에 추가함
 			Passenger passenger = new Passenger();
 			passenger.setBoardNo(boardNo);
 			passenger.setPassengerId(memberDto.getMemberId());
 			PassengerRepository.save(passenger);
-		
-		return "redirect:/board/findcarform?boardNo="+boardNo;
+
+			return "redirect:/board/findcarform?boardNo=" + boardNo;
+
 		}
+	}
+
+	
+	// 글쓴이 입장에서 승인 또는 취소
+	@GetMapping("/findcarconfirmpassenger")
+	public String confirmPassenger(Long boardNo, String passengerId) {
+		
+		Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
+		passenger.setPassenger_check("승인");
+		PassengerRepository.save(passenger);
+		
+		return "redirect:/board/findcarform?boardNo=" + boardNo;
+
 	}
 
 	@Transactional
 	@GetMapping("/findcardeletepassenger")
-	public String deletePassenger(Long boardNo, @RequestParam(required = false) String passengerId,
-			HttpSession session) {
+	public String deletePassenger(Long boardNo, @RequestParam(required = false) String passengerId) {
+		System.out.println("@@@@@@@@@@@@@@@@@"+boardNo+"@@@@@@@@@@@@"+passengerId);
+		
 		if (passengerId != null) {
 			Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
 			PassengerRepository.deleteBypassengerboardNo(passenger.getPassengerboardNo());

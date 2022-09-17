@@ -23,8 +23,8 @@
 			<h2>FindCar게시판글쓰기</h2>
 			<form action="#" th:action="@{/board/findcarform}" th:object="${board}" method="post">
 				<!-- 같은 페이지에서 이동시 form action="#"을 사용함 -->
-				<input type="text" id="boardnum" th:field="*{boardNo}">
-				<input type="text" id="loginid" th:value="${session.loginInfo.memberId}">
+				<input type="hidden" id="boardnum" th:field="*{boardNo}">
+				
 				<div class="form-group">
 					<label for="userid">글쓴이</label>
 					<input type="text" class="form-control" id="userid" th:field="*{memberId}" readonly>
@@ -53,6 +53,7 @@
 				</div>
 				<!-- 이부분에 승객 테이블 보여줄거임 -->
 				<th:block th:if="${session.loginInfo != null}" class='right-box'>
+				<input type="hidden" id="loginid" th:value="${session.loginInfo.memberId}">
 				<table class="table">
 				<thead>
 					<tr>
@@ -66,8 +67,11 @@
 					<tr th:each="passenger: ${passenger}">
 						<td><a th:text="${passenger.passengerId}" name="passengerId"></a></td>
 						<th:block th:if="${session.loginInfo.memberId == board.memberId}" class='right-box'>
-							<td><a type="button" class="btn btn-success" name="keepPassenger" >승인
-								<a type="button" class="btn btn-secondary" name="deletePassenger" th:href="@{/board/findcardeletepassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId})}">거절</td>
+							<!-- 승인 버튼 클릭하면 승인상태로 변경됨-->
+							<td><a type="button" class="btn btn-success" id="keepPassenger" th:href="@{/board/findcarconfirmpassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId})}" >승인
+								<!-- 거절 버튼 클릭하면 테이블에서 데이터 삭제됨 -->
+								<a type="button" class="btn btn-secondary" id="deletePassenger" th:href="@{/board/findcardeletepassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId})}">거절</td>
+									
 						</th:block>
 						<td><a th:text="${passenger.passenger_check}" name="passenger_check"></a></td>
 					</tr>
@@ -76,14 +80,15 @@
 				<br><br>
 				<!-- 모든 사용자에게 돌아가기 버튼 제공 -->
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a>
+					<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a> &nbsp;
 					
 					<!-- 로그인한 사용자는 운전자 신청 버튼 제공 -->	
 					<th:block th:if="${session.loginInfo != null}" class='right-box'>
 						
 						<th:block th:if="${session.loginInfo.memberId != board.memberId}" class='right-box'>
-						<a type="button"  class="btn btn-info" id="addPassenger"> 운전자신청</button>
-						<a type="button" class="btn btn-info" id="dropPassenger"> 신청취소</a>
+							<!-- <th:block th:if="${session.loginInfo.memberId !=}" class='right-box'></th:block> -->
+						<a type="button" class="btn btn-info" id="addPassenger"> 운전자신청</a> &nbsp;
+						<a type="button" class="btn btn-info" id="dropPassenger"> 운전자신청취소</a>
 						</th:block>
 					
 						<!-- 글쓴이에게는 글 저장, 삭제 버튼 제공 -->
@@ -126,15 +131,7 @@
 		$("#addPassenger").click(function(){
 					var loginId = document.getElementById("loginid").value;
 					var bNo2 = document.getElementById("boardnum").value;
-					//alert("test");
-					//if($(this).text()=="운전자신청"){
-					//	$(this).text("운전자신청취소");
-					//	alert("test2");
-					//}
-					//else{
-					//	$(this).text("운전자신청");
-					//	alert("tes3");
-					//}
+					
 					Swal.fire({
 						title : '신청하시겠습니까?',
 						confirmButtonText: '확인', // confirm 버튼 텍스트 지정ㄲ
@@ -142,14 +139,15 @@
 					}).then(function(result){
 						if(result.isConfirmed==true){
 							alert("신청되었습니다");
-						
+							
 							location.href="/board/findcaraddpassenger?boardNo="+bNo2+"&loginId="+loginId;
 						}
-					});
+					})
+					.attr("disabled",false);
 					return false;
 				});
 
-		/*운전자신청취소 클릭 이벤트*/
+		/*운전자-운전자신청취소 클릭 이벤트*/
 		$("#dropPassenger").click(function(){
 					var loginId = document.getElementById("loginid").value;
 					var bNo2 = document.getElementById("boardnum").value;
@@ -167,8 +165,43 @@
 					});
 					return false;
 				});
+				
+		// /*글쓴기-승인거절 클릭 이벤트*/
+		// $("#deletePassenger").click(function(){
+		// 			var pId = document.getElementsByName("passengerId").value;
+		// 			var bNo2 = document.getElementById("boardnum").value;
+					
+		// 			Swal.fire({
+		// 				title : '승인을 거절하시겠습니까?',
+		// 				confirmButtonText: '확인', // confirm 버튼 텍스트 지정ㄲ
+		// 			   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+		// 			}).then(function(result){
+		// 				if(result.isConfirmed==true){
+		// 					alert("승인이 거절 되었습니다");
+		// 					location.href="/board/findcardeletepassenger?boardNo="+bNo2+"&passengerId="+pId;
+		// 				}
+		// 			});
+		// 			return false;
+		// 		});
 
-		
+		// /*글쓴기-승인 클릭 이벤트*/
+		// $("#keepPassenger").click(function(){
+		// 		var pId = document.getElementsByName("passengerId").value;
+		// 			var bNo2 = document.getElementById("boardnum").value;
+					
+		// 			Swal.fire({
+		// 				title : '승인하시겠습니까?',
+		// 				confirmButtonText: '확인', // confirm 버튼 텍스트 지정ㄲ
+		// 			   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+		// 			}).then(function(result){
+		// 				if(result.isConfirmed==true){
+		// 					alert("승인되었습니다");
+		// 					location.href="/board/findcarconfirmpassenger?boardNo="+bNo2+"&passengerId="+pId;
+		// 				}
+		// 			});
+		// 			return false;
+		// 		});
+
 	</script>
 	</th:block>
 </html>
