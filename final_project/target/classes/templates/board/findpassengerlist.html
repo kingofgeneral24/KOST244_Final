@@ -15,7 +15,12 @@
   <body>
   	<div class="container">
 	<h2>탑승자 구하는 게시판</h2>	
-	
+	<div align="right">
+  		<form th:action="@{/board/findcarlist}" method="get">
+			<input type="text" name="searchKeyword">
+			<button type="submit">검색</button>
+  		</form>
+  	</div>
     <table class="table">
   	<thead>
     <tr>
@@ -46,6 +51,7 @@
     <a th:if="${page != nowPage}" th:href="@{/board/findpassengerlist(page=${page - 1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
     <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>
   </th:block>
+  
   
 </div>
 </body>
