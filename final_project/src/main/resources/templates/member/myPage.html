@@ -41,12 +41,11 @@ layout:decorate="~{layout/layout}"  란?
 				                <tbody>
 				                    <tr>        
 				                        <td>
-				                            <strong>
-			                                	<span class="glyphicon glyphicon-asterisk text-primary"></span>
-				                                Id                                                
+				                            <strong> 
+			                                	<span class="glyphicon glyphicon-asterisk text-primary"></span>                               
 				                            </strong>
 				                        </td>
-			                        	<td class="text-primary"  th:text="${memberInfo.memberId}" ></td>
+			                        	<td class="text-primary" id=memberId  th:text="${memberInfo.memberId}" ></td>
 				                    </tr>
 				                    <tr>    
 				                        <td>
@@ -102,18 +101,7 @@ layout:decorate="~{layout/layout}"  란?
 				                        </td>
 				                        <td class="text-primary" th:text="${memberInfo.memberLike}" >
 				                        </td>
-				                    </tr>
-				                    <tr>        
-				                        <td>
-				                            <strong>
-				                                <span class="glyphicon glyphicon-calendar text-primary"></span>
-				                                Optional                                               
-				                            </strong>
-				                        </td>
-				                        <td class="text-primary">
-				                        Optional
-				                        </td>
-				                    </tr>                                    
+				                    </tr>                               
 				                </tbody>
 				            </table>
 			            </div>
@@ -124,6 +112,7 @@ layout:decorate="~{layout/layout}"  란?
 									&nbsp;
 									<button type="button"	 id="btnPwUpdate" 	class="btn btn-primary">비밀번호 수정하기</button>
 									<button type="button"  id="btnMemberUpdate" class="btn btn-primary">회원정보 수정하기</button>
+									<button type="button"  id="btnMemberDelete" class="btn btn-primary">회원탈퇴</button>
 								</div>
 							</div>
 						</div>
@@ -133,16 +122,38 @@ layout:decorate="~{layout/layout}"  란?
 			</div>
 			</div>           	    
 	    </section>
-		<script>
-				/*비밀번호 변경페이지 이동*/
-				$("#btnPwUpdate").click(function(){		
-					 location.href="/member/passwordUpdateForm";
-				});
+		<script>  
+
+			/*비밀번호 변경페이지 이동*/
+			$("#btnPwUpdate").click(function(){		
+				 location.href="/member/passwordUpdateForm";
+			});
+			
+			/*회원정보 수정페이지 이동*/		
+			$("#btnMemberUpdate").click(function(){
+				 location.href="/member/myPageUpdateForm";
+			});
+
+			/*회원탈퇴 클릭 이벤트*/		
+			$("#btnMemberDelete").click(function(){
+				var memberId = $("#memberId").text()
+	    		Swal.fire({ 
+	   				title: '정말로 회원을 탈퇴하시겠습니까?',
+			   		//text: '다시 되돌릴 수 없습니다. 신중하세요.',
+			   		icon: 'warning',
+			   		showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+			   		confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+			  		cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+			  		confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+				   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				}).then(function(result){
+					if(result.isConfirmed == true){		
+						 location.href="/member/delete/"+memberId;
+					
+					}
+				});		
+			});
 				
-				/*회원정보 수정페이지 이동*/		
-				$("#btnMemberUpdate").click(function(){
-					 location.href="/member/myPageUpdateForm";
-				});
 		</script>
 	</th:block>
 </html>

@@ -21,20 +21,37 @@ layout:decorate="~{layout/layout}"  란?
  	<th:block layout:fragment="css"></th:block>  
  	<th:block layout:fragment="script"></th:block>
 	<th:block layout:fragment="content">
+	    <!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center my-5">
+                    <h1 class="display-5 fw-bolder text-white mb-2"><img src="/images/carvroong3.png" alt="Logo" style="width:300px;height:300px;"></h1>
+                    <p class="lead text-white-50 mb-4">부릉부릉 당신은 누구십니까?</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">운전자</a>
+                        <a class="btn btn-outline-light btn-lg px-4"  th:href="@{/board/findcarlist}">탑승자</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
         <!-- Pricing section 샘플2-->
         <section class="bg-light py-5 border-bottom">
             <div class="container px-5 my-5">
                 <div class="text-center mb-5">
-                    <h2 class="fw-bolder">상단 타이틀1</h2>
-                    <p class="lead mb-0">서브 타이틀2</p>
+                    <h2 class="fw-bolder">카부룽이란?</h2>
+                    <p class="lead mb-0">카부룽은 새로운 이동 기준을 제시하는 모빌리티 플랫폼</p>
                 </div>
                 <div class="row gx-5 justify-content-center">
                     <!-- Pricing card free-->
                     <div class="col-lg-6 col-xl-4">
                         <div class="card mb-5 mb-xl-0">
                             <div class="card-body p-5">
-                                <div class="small text-uppercase fw-bold">
-                                    <i class="bi bi-star-fill text-warning"></i>
+                                <div class="small text-uppercase fw-bold">                 
+                                    <i class="bi bi-person-circle text-warning"></i>
                                     타이틀1
                                 </div>
                                 <ul class="list-unstyled mb-4">
@@ -46,7 +63,7 @@ layout:decorate="~{layout/layout}"  란?
                                         <i class="bi bi-check text-primary"></i>
                                         내용2
                                     </li>
-                                </ul>
+                                </ul>                                
                                 <div class="d-grid"><a class="btn btn-outline-primary" href="#!">탑승자</a></div>
                             </div>
                         </div>

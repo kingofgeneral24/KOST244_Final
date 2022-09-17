@@ -1,7 +1,8 @@
 package com.kosta.finalproject.model;
 
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -11,25 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
-import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 
-@Entity(name = "test_BOARD")///////////////////////////////////
+@Entity(name = "BOARD")
 @Data
-@SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
-sequenceName = "BOARD_SEQ", 
-initialValue = 1, 
-allocationSize = 1)
+@SequenceGenerator(name = "BOARD_SEQ_GENERATOR", sequenceName = "BOARD_SEQ", initialValue = 1, allocationSize = 1)
 
 public class Board {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-	generator="BOARD_SEQ_GENERATOR"
-	) 
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")
 	@Column(name = "BOARD_NO")
 	private Long boardNo;
 
@@ -48,43 +43,40 @@ public class Board {
 	@Column(name = "BOARD_ENDPOINT")
 	private String boardEndpoint;
 
-//	@Column(name = "BOARD_STARTTIME")
-//	private Date boardStarttime;
-
 	@Column(name = "BOARD_CONTENTS")
 	private String boardContents;
 	
 	@Column(name="BOARD_STARTTIME")
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
-	
-	
-	///////////////////////////////////
 
+	@OneToOne
+	@JoinColumn(name="boardNo")
+	private Passenger passenger;
 
 }
+
+
 
 
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
 
-	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Override
 	public Date convertToDatabaseColumn(String attribute) {
-		// 2018-06-07 00:00
-		java.util.Date date = null;
-		System.out.println("attribute : " + attribute);
+		// 2018-06-07T00:00
+		Date date = null;
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
-		System.out.println("st : " + st);
 		
 		try {
-			date = sf.parse(st);
+			date = (Date) sf.parse(st);
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return date;
 	}
 
 	@Override
