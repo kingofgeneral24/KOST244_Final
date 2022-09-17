@@ -3,10 +3,7 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{/layout/layout}">
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout}">
-
-
+	
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +11,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
-<th:block layout:fragment="css"></th:block>
-<th:block layout:fragment="script"></th:block>
 <th:block layout:fragment="content">
 
 	<body>
@@ -23,8 +18,7 @@
 			<h2>FindCar게시판글쓰기</h2>
 			<form action="#" th:action="@{/board/findcarform}" th:object="${board}" method="post">
 				<!-- 같은 페이지에서 이동시 form action="#"을 사용함 -->
-				<input type="text" id="boardnum" th:field="*{boardNo}">
-				<input type="text" id="loginid" th:value="${session.loginInfo.memberId}">
+				<input type="hidden" id="boardnum" th:field="*{boardNo}">
 				<div class="form-group">
 					<label for="userid">글쓴이</label>
 					<input type="text" class="form-control" id="userid" th:field="*{memberId}" readonly>
@@ -52,41 +46,35 @@
 						rowa="3" th:field="*{boardContents}"></textarea>
 				</div>
 				<!-- 이부분에 승객 테이블 보여줄거임 -->
-				<th:block th:if="${session.loginInfo != null}" class='right-box'>
 				<table class="table">
 				<thead>
 					<tr>
 						<th scope="col">탑승목록</th>
-						<th:block th:if="${session.loginInfo.memberId == board.memberId}" class='right-box'>
-							<th scope="col">승인</th>
-						</th:block>
-						<th scope="col">승인상태</th>
+						<th scope="col">허가/거절</th>
+						<th scope="col">확정</th>
 					</tr>
 				</thead>
 					<tr th:each="passenger: ${passenger}">
-						<td><a th:text="${passenger.passengerId}" name="passengerId"></a></td>
-						<th:block th:if="${session.loginInfo.memberId == board.memberId}" class='right-box'>
-							<td><a type="button" class="btn btn-success" name="keepPassenger" >승인
-								<a type="button" class="btn btn-secondary" name="deletePassenger" th:href="@{/board/findcardeletepassenger(boardNo=${board.boardNo},passengerId=${passenger.passengerId})}">거절</td>
-						</th:block>
-						<td><a th:text="${passenger.passenger_check}" name="passenger_check"></a></td>
+						<td th:text="${passenger.memberId}"></td>
+						<td><a type="button" class="btn btn-success">허가
+							<a type="button" class="btn btn-secondary">거절</td>
+						<td>X</td>
 					</tr>
 				</table>
-				</th:block>
-				<br><br>
 				<!-- 모든 사용자에게 돌아가기 버튼 제공 -->
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a>
+					<a type="button" th:href="@{/board/findcarlist}" class="btn btn-primary">돌아가기</a>&nbsp;
 					
 					<!-- 로그인한 사용자는 운전자 신청 버튼 제공 -->	
 					<th:block th:if="${session.loginInfo != null}" class='right-box'>
 						
-						<th:block th:if="${session.loginInfo.memberId != board.memberId}" class='right-box'>
-							<!-- <th:block th:if="${session.loginInfo.memberId !=}" class='right-box'></th:block> -->
-						<a type="button"  class="btn btn-info" id="addPassenger"> 운전자신청</button>
-						<a type="button" class="btn btn-info" id="dropPassenger"> 운전자신청취소</a>
+						<th:block th:if="${session.loginInfo.memberId != board.memberId}">
+						<a type="button"  class="btn btn-info" id="addPassenger"> 운전자신청</a>
 						</th:block>
-					
+						<!-- <a type="text" th:field="*{session.loginInfo.memberId}">ssss</a> -->
+						
+						<!-- <input type="text" th:text="${session.loginInfo.memberId}" id="testid" ></a> -->
+						
 						<!-- 글쓴이에게는 글 저장, 삭제 버튼 제공 -->
 						<th:block th:if="${session.loginInfo.memberId == board.memberId}">
 							<button type="submit" class="btn btn-primary" id="findcarsave">저장</button>&nbsp;
@@ -96,12 +84,36 @@
 					</th:block>
 				</div>
 			</form>
-			<br>
-			<br>
+			
+			<div class="card-body">
+		    	<div class="row">
+		      		<div class="form-group col-sm-8">
+		        		<input class="form-control input-sm" id="commentContent" name="commentContent"	type="text" placeholder="댓글 입력...">
+		      		</div>
+		      		<div class="form-group col-sm-2">
+           				<th:block th:if="${session.loginInfo != null}">
+           					<input type="hidden" id="loginId"	name="loginId"	th:value="${session.loginInfo.memberId}">
+		        			<input class="form-control input-sm" id="commentWriter" name="commentWriter"		readonly type="text" placeholder="작성자">
+		        		</th:block>
+           				<th:block th:if="${session.loginInfo == null}">
+		        			<input class="form-control input-sm" id="commentWriter" name="commentWriter"	 readonly type="text" placeholder="로그인 후 이용">
+		        		</th:block>
+		      		</div>
+
+					<!-- 로그인 사용자에게만 버튼 노출 -->
+		      		<div class="form-group col-sm-2"	th:if="${session.loginInfo != null}" >
+			        	<button type="button" class="btn btn-outline-primary btn-sm btn-block"  onclick="javascript:fnCommentSave(0,0);">
+			        		<i class="bi bi-save"></i> 저장
+			      		</button>
+		      		</div>
+		      		
+		    	</div>	
 			</div>
+			<div class="card-body" id="commentList">
+			</div>
+		</div>
 	</body>
 	
-
 	<script>
 		/*글 삭제 클릭 이벤트*/		
 				$("#findcardelete").click(function(){
@@ -125,51 +137,23 @@
 				});
 		/*운전자신청 클릭 이벤트*/
 		$("#addPassenger").click(function(){
-					var loginId = document.getElementById("loginid").value;
+			//alert("clicked");
+					// var mId = document.getElementById("loginId").value;
+					var mId = document.getElementById("userid").value;
 					var bNo2 = document.getElementById("boardnum").value;
-					//alert("test");
-					//if($(this).text()=="운전자신청"){
-					//	$(this).text("운전자신청취소");
-					//	alert("test2");
-					//}
-					//else{
-					//	$(this).text("운전자신청");
-					//	alert("tes3");
-					//}
 					Swal.fire({
 						title : '신청하시겠습니까?',
-						confirmButtonText: '확인', // confirm 버튼 텍스트 지정ㄲ
+						confirmButtonText: '확인', // confirm 버튼 텍스트 지정
 					   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 					}).then(function(result){
 						if(result.isConfirmed==true){
 							alert("신청되었습니다");
 						
-							location.href="/board/findcaraddpassenger?boardNo="+bNo2+"&loginId="+loginId;
+							location.href="/board/findcaraddpassenger?boardNo="+bNo2;
 						}
 					});
 					return false;
 				});
-
-		/*운전자신청취소 클릭 이벤트*/
-		$("#dropPassenger").click(function(){
-					var loginId = document.getElementById("loginid").value;
-					var bNo2 = document.getElementById("boardnum").value;
-					
-					Swal.fire({
-						title : '신청을 취소하시겠습니까?',
-						confirmButtonText: '확인', // confirm 버튼 텍스트 지정ㄲ
-					   	cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-					}).then(function(result){
-						if(result.isConfirmed==true){
-							alert("신청이 취소되었습니다");
-						
-							location.href="/board/findcaraddpassenger?boardNo="+bNo2+"&loginId="+loginId;
-						}
-					});
-					return false;
-				});
-
-		
 	</script>
-	</th:block>
+	<script th:src="@{/js/comment.js}"></script>
 </html>
