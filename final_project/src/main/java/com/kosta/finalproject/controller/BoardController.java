@@ -146,7 +146,7 @@ public class BoardController {
 	public String driverBoard(Model model, @RequestParam(required = false) Long boardNo, HttpSession session) {
 
 		MemberDTO memberDto = (MemberDTO) session.getAttribute("loginInfo");
-
+		Long fullSeats = fullSeat(boardNo);
 		// boardNo가 null인 경우->새 글을 쓰게됨
 		if (boardNo == null) {
 			Board board = new Board();
@@ -159,6 +159,7 @@ public class BoardController {
 			findPassengerform.setBoard(board);
 			findPassengerform.setCarInfo(carInfo);
 			model.addAttribute(findPassengerform);
+			model.addAttribute("fullseat",fullSeats);
 		} else {
 			// bodrdNo가 있는 경우 보드레파지토리에서 조회함
 			Board board = BoardRepository.findByboardNo(boardNo);
@@ -174,6 +175,7 @@ public class BoardController {
 			
 			model.addAttribute(findPassengerform);
 			model.addAttribute("passenger", passengers);
+			model.addAttribute("fullseat",fullSeats);
 		}
 		return "/board/findpassengerform";
 
@@ -275,7 +277,7 @@ public class BoardController {
 	public String passengerboardconfirm(Long boardNo, String passengerId) {
 
 		Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
-		passenger.setPassenger_check("승인");
+		passenger.setPassengerCheck("승인");
 		PassengerRepository.save(passenger);
 
 		return "redirect:/board/findpassengerform?boardNo=" + boardNo;
@@ -383,7 +385,7 @@ public class BoardController {
 	public String confirmPassenger(Long boardNo, String passengerId) {
 
 		Passenger passenger = PassengerRepository.findByBoardNoAndPassengerId(boardNo, passengerId);
-		passenger.setPassenger_check("승인");
+		passenger.setPassengerCheck("승인");
 		PassengerRepository.save(passenger);
 
 		return "redirect:/board/findcarform?boardNo=" + boardNo;
@@ -414,9 +416,25 @@ public class BoardController {
 	 */
 	@Transactional
 	@GetMapping("/findcardelete")
-	public String boardDelete(Model model, Integer boardNo) {
-		BoardRepository.deleteByboardNo(Long.valueOf(boardNo));
+	public String boardDelete(Model model, Long boardNo) {
+		BoardRepository.deleteByboardNo(boardNo);
 		return "redirect:/board/findcarlist";
+	}
+	
+	
+//	남은 좌석 수를 계산하는 메소드
+//	@GetMapping("/f")
+	public Long fullSeat(Long boardNo) {
+		String s = "승인";
+		List<Passenger> passengers = PassengerRepository.findByBoardNoAndPassengerCheck(boardNo, s);
+		
+		System.out.println((long) passengers.size());
+		System.out.println((long) passengers.size());
+		System.out.println((long) passengers.size());
+		System.out.println((long) passengers.size());
+		System.out.println((long) passengers.size());
+		System.out.println((long) passengers.size());
+		return (long) passengers.size();
 	}
 
 }

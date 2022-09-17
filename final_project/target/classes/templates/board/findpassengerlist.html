@@ -20,6 +20,12 @@
 		탑승자를 구하는 게시판입니다. 
     출발지와 목적지를 입력해주시기 바랍니다.
     <br><br>
+    <div align="right">
+      <form th:action="@{/board/findpassengerlist}" method="get">
+      <input type="text" name="searchKeyword" placeholder="제목으로 검색됩니다.">
+      <button type="submit">검색</button>
+      </form>
+      </div>
 	<!-- <div>총 건수 : <span th:text="${#lists.size(list)}"></span></div>
 	 -->
 	<table class="table">

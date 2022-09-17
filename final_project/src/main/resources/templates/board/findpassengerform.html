@@ -18,6 +18,7 @@
 	<body>
 		<div class="container">
 			<h2>FindPassenger게시판글쓰기</h2>
+			
 			<form action="#" th:action="@{/board/findpassengerform}" th:object="${findpassengerform}" method="post">
 				<!-- 같은 페이지에서 이동시 form action="#"을 사용함 -->
 				<input type="hidden" id="boardnum" th:field="${findpassengerform.board.boardNo}">
@@ -85,26 +86,34 @@
 					<!-- 이부분에 승객 테이블 보여줄거임 -->
 				<th:block th:if="${session.loginInfo != null}" class='right-box'>
 					<input type="hidden" id="loginid" th:value="${session.loginInfo.memberId}">
-					<table class="table">
+					<table class="table" style="margin-left: auto; margin-right: auto;">
 					<thead>
 						<tr>
-							<th scope="col">탑승목록</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th>남은 자릿수 : </th>
+							<th><a th:text="${findpassengerform.carInfo.maxSeat}-${fullseat}"></a></th>
+							<!-- <th><a th:text="${findpassengerform.carInfo.maxSeat}"></a></th> -->
+						</tr>
+						<tr>
+							<th scope="col" colspan="2">탑승목록</th>
 							<th:block th:if="${session.loginInfo.memberId == findpassengerform.board.memberId}" class='right-box'>
-								<th scope="col">승인</th>
+								<th scope="col" colspan="2">승인</th>
 							</th:block>
 							<th scope="col">승인상태</th>
 						</tr>
 					</thead>
 						<tr th:each="passenger: ${passenger}">
-							<td><a th:text="${passenger.passengerId}" name="passengerId"></a></td>
+							<td  colspan="2"><a th:text="${passenger.passengerId}" name="passengerId"></a></td>
 							<th:block th:if="${session.loginInfo.memberId == findpassengerform.board.memberId}" class='right-box'>
 								<!-- 승인 버튼 클릭하면 승인상태로 변경됨-->
-								<td><a type="button" class="btn btn-success" id="keepPassenger" th:href="@{/board/findpassengerconfirm(boardNo=${findpassengerform.board.boardNo},passengerId=${passenger.passengerId})}" >승인
+								<td colspan="2"><a type="button" class="btn btn-success" id="keepPassenger" th:href="@{/board/findpassengerconfirm(boardNo=${findpassengerform.board.boardNo},passengerId=${passenger.passengerId})}" >승인
 									<!-- 거절 버튼 클릭하면 테이블에서 데이터 삭제됨 -->
 									<a type="button" class="btn btn-secondary" id="deletePassenger" th:href="@{/board/findcardeletepassenger(boardNo=${findpassengerform.board.boardNo},passengerId=${passenger.passengerId})}">거절</td>
 										
 							</th:block>
-							<td><a th:text="${passenger.passenger_check}" name="passenger_check"></a></td>
+							<td><a th:text="${passenger.passengerCheck}" name="passengerCheck"></a></td>
 						</tr>
 					</table>
 					</th:block>
@@ -117,11 +126,11 @@
 						<th:block th:if="${session.loginInfo != null}" class='right-box'>
 							
 							<th:block th:if="${session.loginInfo.memberId != findpassengerform.board.memberId}" class='right-box'>
-								<!-- <th:block th:if="${session.loginInfo.memberId !=}" class='right-box'></th:block> -->
+								<th:block th:if="${(findpassengerform.carInfo.maxSeat - fullseat) != 0}" class='right-box'>
 							<a type="button" class="btn btn-info" id="addPassenger"> 운전자신청</a> &nbsp;
 							<a type="button" class="btn btn-info" id="dropPassenger"> 운전자신청취소</a>
 							</th:block>
-						
+						</th:block>
 							<!-- 글쓴이에게는 글 저장, 삭제 버튼 제공 -->
 							<th:block th:if="${session.loginInfo.memberId == findpassengerform.board.memberId}">
 								<button type="submit" class="btn btn-primary" id="findpassengersave">저장</button>&nbsp;
