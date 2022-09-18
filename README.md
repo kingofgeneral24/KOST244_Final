@@ -1,7 +1,7 @@
 # KOSTA244_Final Project
 
 # 프로젝트 소개
-- 카부릉(CarBroong)
+- 카부릉(CarVroong)
 
 - 카풀 서비스 
 출퇴근 출발지와 도착지가 같거나 중간 경유지에서 경로가 같을 경우
@@ -39,4 +39,4 @@
 [oracle]: /images/oracle.svg
 [thymeleaf]: /images/thymeleaf.svg
 [spring]: /images/spring.svg
-[bootstrap]: /images/bootstrap/jpa.svg
+[bootstrap]: /images/bootstrap.svg
