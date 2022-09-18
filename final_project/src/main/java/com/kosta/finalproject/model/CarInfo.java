@@ -16,7 +16,7 @@ public class CarInfo {
    @Column(name = "CAR_TYPE")
    private String carType;
    @Column(name = "MAXSEAT")
-   private Long maxSeat;
+   private Long maxSeat = 1L;
    @Column(name = "CAR_YEAR")
    private Long carYear;
 }

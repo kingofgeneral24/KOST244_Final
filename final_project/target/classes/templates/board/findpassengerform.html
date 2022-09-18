@@ -96,8 +96,8 @@
 								<th></th>
 								<th></th>
 								<th>남은 자릿수 : </th>
-								<th><a th:text="${findpassengerform.carInfo.maxSeat}"></a></th>
-								<th><a th:text="${fullseat}"></a></th>
+								 <!-- <th><a th:text="${findpassengerform.carInfo.maxSeat}"></a></th>
+								<th><a th:text="${fullseat}"></a></th>  -->
 								<th><a th:text="${findpassengerform.carInfo.maxSeat - fullseat}"></a></th>
 							</tr>
 							<tr>
@@ -137,8 +137,8 @@
 						<th:block th:if="${session.loginInfo.memberId != findpassengerform.board.memberId}"
 							class='right-box'>
 							<th:block th:if="${(findpassengerform.carInfo.maxSeat - fullseat) != 0}" class='right-box'>
-								<a type="button" class="btn btn-info" id="addPassenger"> 운전자신청</a> &nbsp;
-								<a type="button" class="btn btn-info" id="dropPassenger"> 운전자신청취소</a>
+								<a type="button" class="btn btn-info" id="addPassenger"> 탑승자신청</a> &nbsp;
+								<a type="button" class="btn btn-info" id="dropPassenger"> 탑승자 신청취소</a>
 							</th:block>
 						</th:block>
 						<!-- 글쓴이에게는 글 저장, 삭제 버튼 제공 -->

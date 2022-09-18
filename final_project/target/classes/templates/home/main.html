@@ -14,14 +14,14 @@ layout:decorate="~{layout/layout}"  란?
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{/layout/layout}">
-	<head>
+   <head>
         <meta charset="UTF-8"/>
-	</head>      
- 	<!-- 해당 html페이지에서만 사용할 css, script  -->
- 	<th:block layout:fragment="css"></th:block>  
- 	<th:block layout:fragment="script"></th:block>
-	<th:block layout:fragment="content">
-	    <!-- Header-->
+   </head>      
+    <!-- 해당 html페이지에서만 사용할 css, script  -->
+    <th:block layout:fragment="css"></th:block>  
+    <th:block layout:fragment="script"></th:block>
+   <th:block layout:fragment="content">
+       <!-- Header-->
 <header class="bg-dark py-5">
     <div class="container px-5">
         <div class="row gx-5 justify-content-center">
@@ -30,7 +30,7 @@ layout:decorate="~{layout/layout}"  란?
                     <h1 class="display-5 fw-bolder text-white mb-2"><img src="/images/carvroong3.png" alt="Logo" style="width:300px;height:300px;"></h1>
                     <p class="lead text-white-50 mb-4">부릉부릉 당신은 누구십니까?</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">운전자</a>
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3"  th:href="@{/board/findpassengerlist}">운전자</a>
                         <a class="btn btn-outline-light btn-lg px-4"  th:href="@{/board/findcarlist}">탑승자</a>
                     </div>
                 </div>
@@ -42,8 +42,8 @@ layout:decorate="~{layout/layout}"  란?
         <section class="bg-light py-5 border-bottom">
             <div class="container px-5 my-5">
                 <div class="text-center mb-5">
-                    <h2 class="fw-bolder">카부룽이란?</h2>
-                    <p class="lead mb-0">카부룽은 새로운 이동 기준을 제시하는 모빌리티 플랫폼</p>
+                    <h2 class="fw-bolder">카부릉이란?</h2>
+                    <p class="lead mb-0">카부릉은 새로운 이동 기준을 제시하는 모빌리티 플랫폼</p>
                 </div>
                 <div class="row gx-5 justify-content-center">
                     <!-- Pricing card free-->
@@ -51,20 +51,33 @@ layout:decorate="~{layout/layout}"  란?
                         <div class="card mb-5 mb-xl-0">
                             <div class="card-body p-5">
                                 <div class="small text-uppercase fw-bold">                 
-                                    <i class="bi bi-person-circle text-warning"></i>
-                                    타이틀1
+                              <i class="bi bi-car-front"></i>
+                              <i class="fa-solid fa-car"></i>>
+                                    나는 운전자입니다
                                 </div>
                                 <ul class="list-unstyled mb-4">
                                     <li class="mb-2">
+                                        
                                         <i class="bi bi-check text-primary"></i>
-                                        내용1
+                                        1. 운전자 버튼을 누른다.
                                     </li>
                                     <li class="mb-2">
                                         <i class="bi bi-check text-primary"></i>
-                                        내용2
+                                        2. 목적지가 같은 탑승자를 구하는'카구게'게시판에서 글을 작성한다.
                                     </li>
+                                     <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        3.  목적지가 같은 탑승자가 '탑승자 신청'을 하면 '승인' 및 '거절'을 한다. 
+                                    </li>
+                                      <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        4.  탑승자의 신청이 없으면 운전자를 구하는 '운구게' 게시판으로 이동한다.
+                                    </li>
+                                      <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        5. 원하는 목적지의 글에서 '운전자 신청' 버튼을 누른다.
+                                    </li>                                                              
                                 </ul>                                
-                                <div class="d-grid"><a class="btn btn-outline-primary" href="#!">탑승자</a></div>
                             </div>
                         </div>
                     </div>
@@ -73,26 +86,37 @@ layout:decorate="~{layout/layout}"  란?
                         <div class="card mb-5 mb-xl-0">
                             <div class="card-body p-5">
                                 <div class="small text-uppercase fw-bold">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    타이틀2
+                                    <i class="bi bi-person-circle text-warning"></i>
+                                     나는 탑승자입니다.
                                 </div>
                                 <ul class="list-unstyled mb-4">
                                     <li class="mb-2">
                                         <i class="bi bi-check text-primary"></i>
-                                        내용1
+                                        1. 탑승자 버튼을 누른다.
                                     </li>
                                     <li class="mb-2">
                                         <i class="bi bi-check text-primary"></i>
-                                       내용2
+                                       2.  목적지가 같은 운전자를 구하는 '운구게'게시판에서 글을 작성한다.
                                     </li>
+                                     <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        3.  운전자가 '운전자 신청'을 하면 탑승자는 '승인' 및 '거절'을 한다. 
+                                    </li>
+                                      <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        4.  운전자의 신청이 없으면 탑승자를 구하는 '카구게' 게시판으로 이동한다.
+                                    </li>
+                                      <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>                                   
+                                        5. 원하는 목적지의 글에서 '탑승자 신청' 버튼을 누른다.
+                                    </li>                                   
                                 </ul>
-                                <div class="d-grid"><a class="btn btn-primary" href="#!">운전자</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>		
- 		<th:block layout:fragment="script"></th:block>
-	</th:block>
+        </section>      
+       <th:block layout:fragment="script"></th:block>
+   </th:block>
 </html>
