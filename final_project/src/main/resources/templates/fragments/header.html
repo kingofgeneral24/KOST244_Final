@@ -32,19 +32,29 @@
 	                        </li>
 						</th:block>
 					
-                        <li class="nav-item"><a class="nav-link" href="@{/board/findpassengerlist}">카구게</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/board/findpassengerlist}">카구게</a></li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/board/findcarlist}">운구게</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">게시판</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" th:href="@{/home/main}">공지사항</a></li>
-                                <li><a class="dropdown-item" th:href="@{/home/main}">Q&A</a></li>
+                                <li><a class="dropdown-item" href="blog-home.html">공지사항</a></li>
+                                <li><a class="dropdown-item" href="blog-post.html">Q&A</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
+				<!-- <th:block>
+                <input type="text" name="searchKeyword">
+				<a type="button" th:href="@{/board/list(searchKeyword=test)}">검색</button>
+				</th:block> -->
             </div>
+		
+			 <!-- <form th:action="@{/board/list}" method="get">
+				<input type="text" name="searchKeyword">
+				<button type="submit">검색</button>
+		  </form> -->
+ 
         </nav>
         
 		<script>
