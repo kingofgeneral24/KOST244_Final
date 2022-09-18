@@ -39,4 +39,4 @@
 [oracle]: /images/oracle.svg
 [thymeleaf]: /images/thymeleaf.svg
 [spring]: /images/spring.svg
-[bootstrap]: images/bootstrap/jpa.svg
+[bootstrap]: /images/bootstrap/jpa.svg
