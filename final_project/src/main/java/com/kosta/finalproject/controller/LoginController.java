@@ -110,7 +110,7 @@ public class LoginController {
 	/*비밀번호 찾기 조회*/
 	@PostMapping("/findPw")
 	@ResponseBody
-	public String findPw(MemberDTO memberDTO, HttpSession session) {
+	public String findPw(MemberDTO memberDTO) {
 		
 		log.info("비밀번호찾기 조회 findId ");
 		

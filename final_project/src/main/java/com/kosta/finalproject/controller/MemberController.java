@@ -106,7 +106,7 @@ public class MemberController {
 
 	/*JPA 수정하기 html에서 수정하기버튼 눌렀을때 아래의 url로 호출함*/
 	@PostMapping("/memberUpdate")
-	public String memberUpdate(@ModelAttribute MemberDTO memberDTO) {
+	public String memberUpdate(MemberDTO memberDTO) {
 
 		log.info("memberDTO : "+memberDTO.toString());
 		
@@ -152,7 +152,7 @@ public class MemberController {
 	}	
 	
 	@PostMapping("/save")
-	public String save(@ModelAttribute MemberDTO memberDTO) {
+	public String save(MemberDTO memberDTO) {
 		
 		log.info("memberDTO : "+memberDTO.toString());
 		
@@ -204,7 +204,7 @@ public class MemberController {
 		return memberDTO;
 	}
 	
-	//get 요청 삭제 /member/delete/3
+	//회원 탈퇴  /member/delete/3
 	@GetMapping("/delete/{memberId}")
 	public String delete(@PathVariable String memberId) {
 		
@@ -225,13 +225,15 @@ public class MemberController {
 	  * /member/3: 조회(get) R, 저장(post) C, 수정(put) U, 삭제(delete)  D
 	  */
 	
-		//delete요청 삭제
+	/* 유투부 회원탈퇴
 	@DeleteMapping("/deleteMember")
 	public ResponseEntity deleteAjax(@PathVariable Long memberNo) {
 		memberService.delete(memberNo);
-		return new ResponseEntity<>(HttpStatus.OK); //ajax  쓰는 거/호출한 부분에 리턴으로 200 응답을 줌.
+		return new ResponseEntity<>(HttpStatus.OK);  ajax  쓰는 거/호출한 부분에 리턴으로 200 응답을 줌.
+		
+	}
+	*/
 	
-}
 
 	/*비밀번호 변경페이지에서 현재 비밀번호 검증*/
    @PostMapping("/pwChk")
@@ -270,7 +272,7 @@ public class MemberController {
 	   
    }
 
-	/*비밀번호 변경하기*/
+	/*회원정보 변경하기*/
    @PostMapping("/updateMember")
    public String updateMember(MemberDTO memberDTO) {
 

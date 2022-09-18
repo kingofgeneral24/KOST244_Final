@@ -11,7 +11,7 @@ import com.kosta.finalproject.dto.MemberDTO;
 public class MainController {
 	// URL을 /로 접근하거나 /home/main으로 접근할 수 있다.
 	@GetMapping (value = { "/", "/home/main" } )
-	public String home(HttpSession session) {
+	public String home() {
 		
 		return "home/main"; 
 	}

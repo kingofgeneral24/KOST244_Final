@@ -215,13 +215,15 @@ layout:decorate="~{layout/layout}"  란?
 				
 				let emailValue = $("#memberEmail").val();
 				
-				if ($.trim(emailValue) == ""){
+				//trim은 공백을 없애는것 //$ jquary
+ 				if ($.trim(emailValue) == ""){
                		Swal.fire({
                   		icon: "warning", // Alert 타입 
                        	title: "이메일을 입력해주세요.", // Alert 제목 
                		});         		
                		$("#memberEmail").focus();			
 					return false;
+					//코드가 끝나는것(stopped script functioning)
 				}
 
 				if (!isValidEmail($.trim(emailValue))) {
