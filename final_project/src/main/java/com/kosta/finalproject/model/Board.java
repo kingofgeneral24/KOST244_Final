@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
@@ -41,9 +43,6 @@ public class Board {
 	@Column(name = "BOARD_ENDPOINT")
 	private String boardEndpoint;
 
-//	@Column(name = "BOARD_STARTTIME")
-//	private Date boardStarttime;
-
 	@Column(name = "BOARD_CONTENTS")
 	private String boardContents;
 	
@@ -51,9 +50,14 @@ public class Board {
 	@Convert(converter=StringToDate.class)
 	private String boardStarttime;
 
-
+	@OneToOne
+	@JoinColumn(name="boardNo")
+	private Passenger passenger;
 
 }
+
+
+
 
 @Converter
 class StringToDate implements AttributeConverter<String, Date> {
@@ -64,10 +68,8 @@ class StringToDate implements AttributeConverter<String, Date> {
 	public Date convertToDatabaseColumn(String attribute) {
 		// 2018-06-07T00:00
 		Date date = null;
-		System.out.println("attribute : " + attribute);
 		String st = attribute.replace("T", " ");
 		//st = st.concat(":00.0");
-		System.out.println("st : " + st);
 		
 		try {
 			date = (Date) sf.parse(st);

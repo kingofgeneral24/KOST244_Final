@@ -44,7 +44,7 @@ public class LoginController {
 	*/
 	@GetMapping("/loginForm")
 	public String loginForm() {
-		return "/login/loginForm";
+		return "login/loginForm";
 	}
 	
 	@PostMapping("/login")
@@ -55,6 +55,7 @@ public class LoginController {
 		
 		if (loginResult != null) {
 			//로그인정보를 세션에 담는다
+			System.out.println("-==================================login logininfo"+loginResult);
 			session.setAttribute("loginInfo", loginResult);
 		//	memberDTO = (MemberDTO) session.getAttribute("loginInfo");
 			
@@ -76,7 +77,7 @@ public class LoginController {
 	/*아이디 찾기 페이지 이동*/
 	@GetMapping("/findIdForm")
 	public String findIdForm() {
-		return "/login/findIdForm";
+		return "login/findIdForm";
 	}	
 
 	/*아이디 찾기 조회*/
@@ -103,7 +104,7 @@ public class LoginController {
 	/*비밀번호 찾기 페이지 이동*/
 	@GetMapping("/findPwForm")
 	public String findPwForm() {
-		return "/login/findPwForm";
+		return "login/findPwForm";
 	}
 
 	/*비밀번호 찾기 조회*/

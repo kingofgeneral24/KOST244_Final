@@ -1,0 +1,148 @@
+<!DOCTYPE html> 
+<!-- layout.html -->
+
+<!-- 
+layout:decorate="~{layout/layout}"  란?
+- 기본 레이아웃을 layout/layout.html 으로 선언
+- 버전마다 선언방법이 다름 아래 참조.
+- layout:decorate thymeleaf 3.* ver (이거 사용함)
+- layout:decorator thymeleaf 2.* ver
+ <th:block layout:fragment="content">
+- 각 파일 마다, 위 코드 다음부터 작성한 내용들이 default_layout.html 의 content 부분에 위치함
+-->
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+        <style>
+			 .inf-content{
+	    		border:1px solid #DDDDDD;
+			    -webkit-border-radius:10px;
+			    -moz-border-radius:10px;
+			    border-radius:10px;
+			    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+			}			        
+        </style>
+	</head>      
+	<th:block layout:fragment="content">
+		<!-- Contact section-->
+	    <section class="bg-light py-5">
+			<div class="container bootstrap snippets bootdey">
+			<div class="panel-body inf-content">
+		    	<div class="row">
+					&nbsp;
+			        <div class="col-md-6">
+						&nbsp;
+		            	<p class="h5">회원정보</p>
+			            <div class="table-responsive" th:if = "${memberInfo != null }">
+		            		<table class="table table-user-information">
+				                <tbody>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+			                                	<span class="glyphicon glyphicon-asterisk text-primary"></span>
+				                                Id                                                
+				                            </strong>
+				                        </td>
+			                        	<td class="text-primary"  th:text="${memberInfo.memberId}" ></td>
+				                    </tr>
+				                    <tr>    
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-user  text-primary"></span>    
+				                            	Name
+				                            </strong>
+				                        </td>
+				                        <td   class="text-primary" th:text="${memberInfo.memberName}" ></td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-cloud text-primary"></span>  
+				                                Email                                                
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary"  th:text="${memberInfo.memberEmail}"  ></td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-bookmark text-primary"></span> 
+				                                Mobile                                              
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary"  th:text="${memberInfo.memberMobile}"  ></td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-eye-open text-primary"></span> 
+				                                Birth                                                
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary" th:text="${memberInfo.memberBirth}" ></td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-envelope text-primary"></span> 
+				                                License                                                
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary" th:text="${memberInfo.memberLicense}" ></td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-calendar text-primary"></span>
+				                                Like                                                
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary" th:text="${memberInfo.memberLike}" >
+				                        </td>
+				                    </tr>
+				                    <tr>        
+				                        <td>
+				                            <strong>
+				                                <span class="glyphicon glyphicon-calendar text-primary"></span>
+				                                Optional                                               
+				                            </strong>
+				                        </td>
+				                        <td class="text-primary">
+				                        Optional
+				                        </td>
+				                    </tr>                                    
+				                </tbody>
+				            </table>
+			            </div>
+						<div class="row gutters">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="text-right">
+									<!-- &nbsp; 란? 태그간 간격읠 한칸 띄어준다 -->
+									&nbsp;
+									<button type="button"	 id="btnPwUpdate" 	class="btn btn-primary">비밀번호 수정하기</button>
+									<button type="button"  id="btnMemberUpdate" class="btn btn-primary">회원정보 수정하기</button>
+								</div>
+							</div>
+						</div>
+						<br/>
+			        </div>
+			    </div>
+			</div>
+			</div>           	    
+	    </section>
+		<script>
+				/*비밀번호 변경페이지 이동*/
+				$("#btnPwUpdate").click(function(){		
+					 location.href="/member/passwordUpdateForm";
+				});
+				
+				/*회원정보 수정페이지 이동*/		
+				$("#btnMemberUpdate").click(function(){
+					 location.href="/member/myPageUpdateForm";
+				});
+		</script>
+	</th:block>
+</html>
