@@ -83,7 +83,7 @@
 					<!-- 로그인한 사용자는 운전자 신청 버튼 제공 -->
 					<th:block th:if="${session.loginInfo != null}" class='right-box'>
 
-						<th:block th:if="${session.loginInfo.memberId != board.memberId}" class='right-box'>
+						<th:block th:if="${session.loginInfo.memberId != board.memberId and session.loginInfo.memberLicense != null}" class='right-box'>
 							<!-- <th:block th:if="${session.loginInfo.memberId !=}" class='right-box'></th:block> -->
 							<a type="button" class="btn btn-info" id="addPassenger"> 운전자신청</a> &nbsp;
 							<a type="button" class="btn btn-info" id="dropPassenger"> 운전자신청취소</a>
