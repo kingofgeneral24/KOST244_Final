@@ -111,8 +111,7 @@ public class MemberController {
 		log.info("memberDTO : "+memberDTO.toString());
 		
 		
-		//1. 숙제 회원정보 수정하기.
-		//2. html에서 받은 DTO를 업데이트하시오
+		// html에서 받은 DTO를 업데이트
 		//수정하는 로직 작성부분
 		
 		//   비밀번호 변경 로직 설명
@@ -216,7 +215,7 @@ public class MemberController {
 		
 		return "redirect:/login/logout";
 
-		//	return"memberPages.list";//X
+	//	return"memberPages.list";//X
 	//ajax안쓰는 거
 	}
 	
@@ -225,7 +224,7 @@ public class MemberController {
 	  * /member/3: 조회(get) R, 저장(post) C, 수정(put) U, 삭제(delete)  D
 	  */
 	
-	/* 유투부 회원탈퇴
+	/* 유튜브 회원탈퇴
 	@DeleteMapping("/deleteMember")
 	public ResponseEntity deleteAjax(@PathVariable Long memberNo) {
 		memberService.delete(memberNo);

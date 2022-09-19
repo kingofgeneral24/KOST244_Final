@@ -53,7 +53,7 @@ layout:decorate="~{layout/layout}"  란?
 				                        <td>
 				                            <strong>
 				                                <span class="glyphicon glyphicon-user  text-primary"></span>    
-				                            	Name
+				                            	이름
 				                            </strong>
 				                        </td>
 				                        <td   class="text-primary" th:text="${memberInfo.memberName}" ></td>
@@ -62,7 +62,7 @@ layout:decorate="~{layout/layout}"  란?
 				                        <td>
 				                            <strong>
 				                                <span class="glyphicon glyphicon-cloud text-primary"></span>  
-				                                Email                                                
+				                                이메일 주소                                               
 				                            </strong>
 				                        </td>
 				                        <td class="text-primary"  th:text="${memberInfo.memberEmail}"  ></td>
@@ -71,7 +71,7 @@ layout:decorate="~{layout/layout}"  란?
 				                        <td>
 				                            <strong>
 				                                <span class="glyphicon glyphicon-bookmark text-primary"></span> 
-				                                Mobile                                              
+				                                핸드폰번호                                              
 				                            </strong>
 				                        </td>
 				                        <td class="text-primary"  th:text="${memberInfo.memberMobile}"  ></td>
@@ -80,7 +80,7 @@ layout:decorate="~{layout/layout}"  란?
 				                        <td>
 				                            <strong>
 				                                <span class="glyphicon glyphicon-eye-open text-primary"></span> 
-				                                Birth                                                
+				                                생년월일                                             
 				                            </strong>
 				                        </td>
 				                        <td class="text-primary" th:text="${memberInfo.memberBirth}" ></td>
@@ -89,21 +89,11 @@ layout:decorate="~{layout/layout}"  란?
 				                        <td>
 				                            <strong>
 				                                <span class="glyphicon glyphicon-envelope text-primary"></span> 
-				                                License                                                
+				                                운전면허 번호                                          
 				                            </strong>
 				                        </td>
 				                        <td class="text-primary" th:text="${memberInfo.memberLicense}" ></td>
-				                    </tr>
-				                    <tr>        
-				                        <td>
-				                            <strong>
-				                                <span class="glyphicon glyphicon-calendar text-primary"></span>
-				                                Like                                                
-				                            </strong>
-				                        </td>
-				                        <td class="text-primary" th:text="${memberInfo.memberLike}" >
-				                        </td>
-				                    </tr>                               
+				                    </tr>				                                       
 				                </tbody>
 				            </table>
 			            </div>
