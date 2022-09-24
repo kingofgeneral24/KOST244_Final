@@ -1,0 +1,35 @@
+password 암호화
+spring security의 기능 중 encoding만 사용
+BCrpytPasswordEncoder는 BCrypt해싱 함수(Bcrypt Hashing Function)을 사용해서 데이터를 암호화하는 클래스
+BCrypt는 데이터(mainly pw)를 해싱할 때 내부적으로 랜덤한 솔트를 생성하기 때문에 가은 문자열에 대해서도 다른 결과를 생성
+//Encoding(암호화)
+- SpringSecurity config에 암호화 모듈을 위한 기본 설정만 
+- Cors: 가져오는 리소스가 안전한지 검사
+
+MemberService
+
+
+
+//interceptor
+ - Controller의 URL에 접근하는 과정에서 무언가를 제어할 필요가 있을 때 사용
+- 컨트롤러에 접근하기 전과 후로 나뉨(ex/회원제)
+
+-LoggerInterceptor클래스를 빈(bean)으로 등록
+- WebMvc Congifurer 인터페이스를 implements 해주고
+- LoggerInterceptor 클래스와 마찬가지로 Alt+Shift+V를 눌러서 addInterceptor()메서드를 오버라이딩
+- AddPathPatterns()는 인터셉터 호출에서 경로를 추가(허용)한다는 의미로
+addPathPattern 메서드를 이용해 특정 패턴의 주소(URL)을 추가 
+- WebMvcConfigurer; 해당 인터페이스를 구현면 @EnableWebMvc의 자동 설정을 베이스로 가지며, 원하는 설정 추가 가능(override 가능)
+- addInterceptors()
+- InterceptorRegistry의 addinterceptor()메서드를 이용하여 인터셉터 클래스 등록
+- Loggerinterceptor 컨트롤해줘서 들어가보자 Prehandle, posthandle메서드에서 작성한 로그가 출력되고 있다
+
+
+//Login Controller(로그인페이지 이동, 로그인, 로그아웃, 아이디 찾기 페이지 이동, 아이디 찾기 조회, 비밀번호 찾기 페이지 이동, 
+@Slf4j
+롬복에서 제공하는 어노테이션 (로깅 추상화 라이브러리)
+로깅 추상화 - 로깅을 직접 하지 않고 로깅 구현체를 찾아 기능을 사용할 수 있게 해주는것 을 의미
+
+//Member Controller(회원가입 페이지 이동, 마이페이지 상세보기 이동, 마이페이지 수정페이지, 
+
+//CommentController
